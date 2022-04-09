@@ -1,11 +1,8 @@
 const { Router } = require('express');
+const { getHello } = require('../controllers/controllers');
 
 const router = Router();
 
-router.get('/hello', (req, res) => {
-	res.status(200).json({
-		msg: 'Hello World!',
-	});
-});
+router.get('/hello', getHello);
 
 module.exports = router;
