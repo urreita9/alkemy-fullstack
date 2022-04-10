@@ -1,6 +1,10 @@
 const { validationResult } = require('express-validator');
+
 const bcryptjs = require('bcryptjs');
+
 const { User } = require('../db/db');
+
+const { generateJWT } = require('../helpers/generateJWT');
 
 const postRegister = async (req, res) => {
 	// Check errors in request body
@@ -53,7 +57,9 @@ const postLogin = async (req, res) => {
 		return res.status(400).json({ msg: 'Wrong Email or Password' });
 	}
 
-	res.status(200).json(user);
+	const token = await generateJWT(user.id);
+
+	res.status(200).json({ user, token });
 };
 
 module.exports = {
