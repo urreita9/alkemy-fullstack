@@ -1,10 +1,19 @@
 const express = require('express');
 const routes = require('./routes');
+const { db } = require('./db/db');
 
 const server = express();
 server.use(express.json());
 server.use('/', routes);
 
-server.listen(3000, () => {
-	console.log('Server listening on PORT...', 3000);
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, async () => {
+	try {
+		await db.sync({ force: true });
+	} catch (error) {
+		console.log(error);
+	}
+
+	console.log(`listening on port: ${PORT}...`);
 });
