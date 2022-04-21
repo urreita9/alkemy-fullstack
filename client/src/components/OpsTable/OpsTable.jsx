@@ -9,15 +9,15 @@ import { DeleteIcon } from './DeleteIcon';
 export const OpsTable = () => {
 	const operations = useSelector((state) => state.filteredOperations);
 	const columns = [
-		{ name: 'NAME', uid: 'name' },
-		{ name: 'ROLE', uid: 'role' },
-		{ name: 'STATUS', uid: 'status' },
+		{ name: 'DESCRIPTION', uid: 'description' },
+		{ name: 'AMOUNT', uid: 'amount' },
+		{ name: 'OPTYPE', uid: 'opType' },
 		{ name: 'ACTIONS', uid: 'actions' },
 	];
 	const renderCell = (user, columnKey) => {
 		const cellValue = user[columnKey];
 		switch (columnKey) {
-			case 'name':
+			case 'description':
 				return (
 					<User squared src={user.avatar} name={cellValue} css={{ p: 0 }}>
 						{user.email}
