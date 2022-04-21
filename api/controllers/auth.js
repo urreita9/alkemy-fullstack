@@ -30,7 +30,7 @@ const postRegister = async (req, res) => {
 	// Save on db
 	const user = await User.create({ email, password: hashedPassword });
 
-	res.status(201).json(user);
+	res.status(201).json({ id: user.id, email: user.email });
 };
 
 const postLogin = async (req, res) => {
@@ -59,7 +59,7 @@ const postLogin = async (req, res) => {
 
 	const token = await generateJWT(user.id);
 
-	res.status(200).json({ user, token });
+	res.status(200).json({ user: { id: user.id, email: user.email }, token });
 };
 
 module.exports = {

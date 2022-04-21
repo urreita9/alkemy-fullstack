@@ -2,7 +2,7 @@ require('dotenv').config();
 const { check } = require('express-validator');
 const { Router } = require('express');
 const { postRegister, postLogin } = require('../controllers/auth');
-const { getOperations } = require('../controllers/operations');
+const { getOperations, postOperation } = require('../controllers/operations');
 const { validateJWT } = require('../middlewares/validateJWT');
 
 const router = Router();
@@ -29,5 +29,7 @@ router.post(
 	postLogin
 );
 
-router.get('/operations', validateJWT, getOperations);
+router.get('/operations/:id', validateJWT, getOperations);
+router.post('/operation', validateJWT, postOperation);
+
 module.exports = router;
