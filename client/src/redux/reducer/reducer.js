@@ -1,7 +1,7 @@
 const initialState = {
 	operations: [],
 	filteredOperations: [],
-	operation,
+	operation: {},
 };
 
 const reducer = (state = initialState, action) => {
