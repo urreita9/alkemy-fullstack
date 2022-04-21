@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getOperations } from '../../redux/actions/actions';
+import { Balance } from '../Balance/Balance';
+import { OpsTable } from '../OpsTable/OpsTable';
 
 export const Home = () => {
 	const dispatch = useDispatch();
@@ -14,5 +16,10 @@ export const Home = () => {
 		dispatch(getOperations(mockUser.id));
 	}, []);
 
-	return <div>Hola Mundo</div>;
+	return (
+		<div>
+			<Balance />
+			<OpsTable />
+		</div>
+	);
 };

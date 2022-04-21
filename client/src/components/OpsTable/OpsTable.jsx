@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import { Table, Row, Col, Tooltip, User, Text } from '@nextui-org/react';
 import { StyledBadge } from './StyledBadge';
 import { IconButton } from './IconButton';
-import { EyeIcon } from './EyeIcon';
 import { EditIcon } from './EditIcon';
 import { DeleteIcon } from './DeleteIcon';
 
@@ -14,14 +13,19 @@ export const OpsTable = () => {
 		{ name: 'OPTYPE', uid: 'opType' },
 		{ name: 'ACTIONS', uid: 'actions' },
 	];
-	const renderCell = (user, columnKey) => {
-		const cellValue = user[columnKey];
+
+	const renderCell = (operation, columnKey) => {
+		const cellValue = operation[columnKey];
 		switch (columnKey) {
 			case 'description':
 				return (
-					<User squared src={user.avatar} name={cellValue} css={{ p: 0 }}>
-						{user.email}
-					</User>
+					<Col>
+						<Row>
+							<Text b size={14} css={{ tt: 'capitalize' }}>
+								{cellValue}
+							</Text>
+						</Row>
+					</Col>
 				);
 			case 'role':
 				return (
@@ -31,38 +35,28 @@ export const OpsTable = () => {
 								{cellValue}
 							</Text>
 						</Row>
-						<Row>
-							<Text b size={13} css={{ tt: 'capitalize', color: '$accents3' }}>
-								{user.team}
-							</Text>
-						</Row>
 					</Col>
 				);
 			case 'status':
-				return <StyledBadge type={user.status}>{cellValue}</StyledBadge>;
+				return <StyledBadge type={operation.opType}>{cellValue}</StyledBadge>;
 
 			case 'actions':
 				return (
 					<Row justify='center' align='center'>
 						<Col css={{ d: 'flex' }}>
-							<Tooltip content='Details'>
-								<IconButton onClick={() => console.log('View user', user.id)}>
-									<EyeIcon size={20} fill='#979797' />
-								</IconButton>
-							</Tooltip>
-						</Col>
-						<Col css={{ d: 'flex' }}>
-							<Tooltip content='Edit user'>
-								<IconButton onClick={() => console.log('Edit user', user.id)}>
+							<Tooltip content='Edit operation'>
+								<IconButton
+									onClick={() => console.log('Edit user', operation.id)}
+								>
 									<EditIcon size={20} fill='#979797' />
 								</IconButton>
 							</Tooltip>
 						</Col>
 						<Col css={{ d: 'flex' }}>
 							<Tooltip
-								content='Delete user'
+								content='Delete operation'
 								color='error'
-								onClick={() => console.log('Delete user', user.id)}
+								onClick={() => console.log('Delete user', operation.id)}
 							>
 								<IconButton>
 									<DeleteIcon size={20} fill='#FF0080' />
@@ -95,7 +89,7 @@ export const OpsTable = () => {
 					</Table.Column>
 				)}
 			</Table.Header>
-			<Table.Body items={users}>
+			<Table.Body items={operations}>
 				{(item) => (
 					<Table.Row>
 						{(columnKey) => (
