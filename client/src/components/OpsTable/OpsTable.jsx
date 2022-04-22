@@ -5,8 +5,7 @@ import { IconButton } from './IconButton';
 import { EditIcon } from './EditIcon';
 import { DeleteIcon } from './DeleteIcon';
 
-export const OpsTable = () => {
-	const operations = useSelector((state) => state.filteredOperations);
+export const OpsTable = ({ operations }) => {
 	const columns = [
 		{ name: 'DESCRIPTION', uid: 'description' },
 		{ name: 'AMOUNT', uid: 'amount' },
@@ -89,7 +88,7 @@ export const OpsTable = () => {
 					</Table.Column>
 				)}
 			</Table.Header>
-			<Table.Body items={operations}>
+			<Table.Body items={operations.slice(0, 10)}>
 				{(item) => (
 					<Table.Row>
 						{(columnKey) => (

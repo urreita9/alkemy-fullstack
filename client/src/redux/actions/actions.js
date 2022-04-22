@@ -1,5 +1,8 @@
 import api from '../../axios/axios';
 export const GET_OPERATIONS = 'GET_OPERATIONS';
+export const FILTER_ALL = 'FILTER_ALL';
+export const FILTER_INCOME = 'FILTER_INCOME';
+export const FILTER_OUTCOME = 'FILTER_OUTCOME';
 
 export const getOperations = (id) => async (dispatch) => {
 	try {
@@ -18,3 +21,17 @@ export const getOperations = (id) => async (dispatch) => {
 		console.log(error);
 	}
 };
+
+export const filterAll = () => ({
+	type: FILTER_ALL,
+	payload: null,
+});
+
+export const filterIncome = () => ({
+	type: FILTER_INCOME,
+	payload: null,
+});
+export const filterOutcome = () => ({
+	type: FILTER_OUTCOME,
+	payload: null,
+});
