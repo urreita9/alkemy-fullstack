@@ -46,26 +46,32 @@ export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 
 			case 'actions':
 				return (
-					<Row justify='center' align='center'>
-						<Col css={{ d: 'flex' }}>
-							<Tooltip content='Edit operation'>
-								<IconButton onClick={() => handlerEditModal(operation.id)}>
-									<EditIcon size={20} fill='#979797' />
-								</IconButton>
-							</Tooltip>
-						</Col>
-						<Col css={{ d: 'flex' }}>
-							<Tooltip
-								content='Delete operation'
-								color='error'
-								onClick={() => console.log('Delete user', operation.id)}
-							>
-								<IconButton>
-									<DeleteIcon size={20} fill='#FF0080' />
-								</IconButton>
-							</Tooltip>
-						</Col>
-					</Row>
+					<>
+						{home ? (
+							<></>
+						) : (
+							<Row justify='center' align='center'>
+								<Col css={{ d: 'flex' }}>
+									<Tooltip content='Edit operation'>
+										<IconButton onClick={() => handlerEditModal(operation.id)}>
+											<EditIcon size={20} fill='#979797' />
+										</IconButton>
+									</Tooltip>
+								</Col>
+								<Col css={{ d: 'flex' }}>
+									<Tooltip
+										content='Delete operation'
+										color='error'
+										onClick={() => console.log('Delete user', operation.id)}
+									>
+										<IconButton>
+											<DeleteIcon size={20} fill='#FF0080' />
+										</IconButton>
+									</Tooltip>
+								</Col>
+							</Row>
+						)}
+					</>
 				);
 			default:
 				return cellValue;
@@ -75,8 +81,10 @@ export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 		<Table
 			aria-label='Example table with custom cells'
 			css={{
+				margin: '0 auto',
 				height: 'auto',
-				minWidth: '100%',
+				minWidth: '400px',
+				maxWidth: '1200px',
 			}}
 			selectionMode='none'
 		>
