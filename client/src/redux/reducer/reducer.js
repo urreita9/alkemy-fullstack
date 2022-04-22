@@ -42,6 +42,7 @@ const reducer = (state = initialState, action) => {
 				...state,
 				filteredOperations: filterOutcome,
 			};
+
 		default:
 			return state;
 	}

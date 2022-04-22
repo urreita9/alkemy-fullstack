@@ -3,6 +3,7 @@ export const GET_OPERATIONS = 'GET_OPERATIONS';
 export const FILTER_ALL = 'FILTER_ALL';
 export const FILTER_INCOME = 'FILTER_INCOME';
 export const FILTER_OUTCOME = 'FILTER_OUTCOME';
+export const POST_OPERATION = 'POST_OPERATION';
 
 export const getOperations = (id) => async (dispatch) => {
 	try {
@@ -35,3 +36,30 @@ export const filterOutcome = () => ({
 	type: FILTER_OUTCOME,
 	payload: null,
 });
+
+export const postOperation =
+	(id, { description, amount, opType }) =>
+	async (dispatch) => {
+		try {
+			const { data } = await api.post(
+				`/operation`,
+				{
+					id,
+					description,
+					amount,
+					opType,
+				},
+				{
+					headers: {
+						'x-token':
+							'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU3YTgxZDE5LTI4ZTgtNGI0MC1hMWMyLTNiNzcyZjY3OGIxYiIsImlhdCI6MTY1MDUxMjUwMH0.unIyLCJS3ZyGDrjsCKMm4mF_Jl-GRqvVFMP7vc0Nz0o',
+					},
+				}
+			);
+			if (data) {
+				getOperations(id);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};

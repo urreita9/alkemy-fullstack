@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
 	Modal,
 	Button,
@@ -8,6 +9,8 @@ import {
 	Checkbox,
 	Radio,
 } from '@nextui-org/react';
+import { postOperation } from '../../helpers/axios';
+import { getOperations } from '../../redux/actions/actions';
 // import { Mail } from './Mail';
 // import { Password } from './Password';
 
@@ -21,6 +24,7 @@ export default function AddOpModal({ visible, handler, closeHandler }) {
 		description: '',
 		amount: '',
 	});
+	const dispatch = useDispatch();
 
 	const handleInputChange = (e) => {
 		setForm({
@@ -65,8 +69,10 @@ export default function AddOpModal({ visible, handler, closeHandler }) {
 
 	const handleSubmit = () => {
 		if (errors.description || errors.amount) return;
-		console.log('passed');
-		console.log(form);
+
+		if (postOperation('57a81d19-28e8-4b40-a1c2-3b772f678b1b', form)) {
+			dispatch(getOperations('57a81d19-28e8-4b40-a1c2-3b772f678b1b'));
+		}
 	};
 
 	return (

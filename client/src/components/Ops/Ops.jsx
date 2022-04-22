@@ -17,8 +17,6 @@ export const Ops = () => {
 
 	const dispatch = useDispatch();
 
-	// const orderedOperations = operations
-
 	const mockUser = {
 		id: '57a81d19-28e8-4b40-a1c2-3b772f678b1b',
 		email: 'fran@mail.com',
@@ -26,7 +24,7 @@ export const Ops = () => {
 	};
 	useEffect(() => {
 		dispatch(getOperations(mockUser.id));
-	}, []);
+	}, [dispatch]);
 	const handler = () => setVisible(true);
 	const closeHandler = () => {
 		setVisible(false);
