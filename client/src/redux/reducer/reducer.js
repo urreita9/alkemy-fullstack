@@ -23,7 +23,7 @@ const reducer = (state = initialState, action) => {
 		case FILTER_ALL:
 			return {
 				...state,
-				filteredOperations: state.operations,
+				filteredOperations: [...state.operations],
 			};
 		case FILTER_INCOME:
 			const filterIncome = state.operations.filter(

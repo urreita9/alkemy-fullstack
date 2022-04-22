@@ -1,11 +1,15 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Row, Col, Tooltip, User, Text } from '@nextui-org/react';
 import { StyledBadge } from './StyledBadge';
 import { IconButton } from './IconButton';
 import { EditIcon } from './EditIcon';
 import { DeleteIcon } from './DeleteIcon';
+import { editOperation } from '../../helpers/axios';
+import AddOpModal from '../addOpModal/AddOpModal';
+import EditOpModal from '../editOpModal/EditOpModal';
 
-export const OpsTable = ({ operations }) => {
+export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 	const columns = [
 		{ name: 'DESCRIPTION', uid: 'description' },
 		{ name: 'AMOUNT', uid: 'amount' },
@@ -15,6 +19,7 @@ export const OpsTable = ({ operations }) => {
 
 	const renderCell = (operation, columnKey) => {
 		const cellValue = operation[columnKey];
+
 		switch (columnKey) {
 			case 'description':
 				return (
@@ -44,9 +49,7 @@ export const OpsTable = ({ operations }) => {
 					<Row justify='center' align='center'>
 						<Col css={{ d: 'flex' }}>
 							<Tooltip content='Edit operation'>
-								<IconButton
-									onClick={() => console.log('Edit user', operation.id)}
-								>
+								<IconButton onClick={() => handlerEditModal(operation.id)}>
 									<EditIcon size={20} fill='#979797' />
 								</IconButton>
 							</Tooltip>
@@ -88,7 +91,7 @@ export const OpsTable = ({ operations }) => {
 					</Table.Column>
 				)}
 			</Table.Header>
-			<Table.Body items={operations.slice(0, 10)}>
+			<Table.Body items={home ? operations.slice(0, 10) : operations}>
 				{(item) => (
 					<Table.Row>
 						{(columnKey) => (

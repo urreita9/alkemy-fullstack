@@ -51,7 +51,7 @@ const updateOperation = async (req, res) => {
 	const { id } = req.params;
 
 	try {
-		const user = await User.findByPk(body.id);
+		const user = await User.findByPk(body.uid);
 		if (!user) return res.status(404).json({ msg: 'User does not exist' });
 
 		const operation = await Operation.findByPk(id);

@@ -1,36 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-	Modal,
-	Button,
-	Text,
-	Input,
-	Row,
-	Checkbox,
-	Radio,
-} from '@nextui-org/react';
-import { editOperation, postOperation } from '../../helpers/axios';
+import { Modal, Button, Text, Input } from '@nextui-org/react';
+import { editOperation } from '../../helpers/axios';
 import { getOperations } from '../../redux/actions/actions';
-// import { Mail } from './Mail';
-// import { Password } from './Password';
 
-export default function AddOpModal({
-	visible,
-	handler,
-	closeHandler,
-	updateOp = false,
+export default function EditOpModal({
+	visibleEdit,
+	closeHandlerEditModal,
 	opId,
 }) {
 	const [form, setForm] = useState({
 		description: '',
 		amount: 0,
-		opType: 'income',
 	});
 	const [errors, setErrors] = useState({
 		description: '',
 		amount: '',
 	});
+
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		return () =>
+			dispatch(getOperations('57a81d19-28e8-4b40-a1c2-3b772f678b1b'));
+	}, []);
 
 	const handleInputChange = (e) => {
 		setForm({
@@ -73,10 +66,15 @@ export default function AddOpModal({
 		}
 	};
 
-	const handleSubmit = () => {
+	const handleEdit = () => {
+		console.log(opId);
 		if (errors.description || errors.amount) return;
 
-		postOperation('57a81d19-28e8-4b40-a1c2-3b772f678b1b', form).then((data) => {
+		editOperation('57a81d19-28e8-4b40-a1c2-3b772f678b1b', {
+			opId,
+			description: form.description,
+			amount: form.amount,
+		}).then((data) => {
 			dispatch(getOperations('57a81d19-28e8-4b40-a1c2-3b772f678b1b'));
 		});
 	};
@@ -87,14 +85,14 @@ export default function AddOpModal({
 				closeButton
 				aria-labelledby='modal-title'
 				aria-label='form'
-				open={visible}
-				onClose={closeHandler}
+				open={visibleEdit}
+				onClose={closeHandlerEditModal}
 			>
 				<Modal.Header>
 					<Text id='modal-title' size={18}>
-						Welcome to
+						Update
 						<Text b size={18}>
-							Alkemy Wallet
+							Operation
 						</Text>
 					</Text>
 				</Modal.Header>
@@ -128,35 +126,14 @@ export default function AddOpModal({
 						status={errors.amount.length ? 'error' : 'secondary'}
 						// contentLeft={<Password fill='currentColor' />}
 					/>
-
-					<Radio.Group row value={form.opType}>
-						<Radio
-							value='income'
-							color='secondary'
-							onChange={() => {
-								setForm({ ...form, opType: 'income' });
-							}}
-						>
-							Income
-						</Radio>
-						<Radio
-							value='outcome'
-							color='secondary'
-							onChange={() => {
-								setForm({ ...form, opType: 'outcome' });
-							}}
-						>
-							Outcome
-						</Radio>
-					</Radio.Group>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button auto flat color='error' onClick={closeHandler}>
+					<Button auto flat color='error' onClick={closeHandlerEditModal}>
 						Close
 					</Button>
 
-					<Button auto onClick={handleSubmit}>
-						Add
+					<Button auto onClick={handleEdit}>
+						Update
 					</Button>
 				</Modal.Footer>
 			</Modal>

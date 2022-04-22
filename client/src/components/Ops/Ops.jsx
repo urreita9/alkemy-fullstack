@@ -1,5 +1,5 @@
 import { Button, Grid } from '@nextui-org/react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	filterAll,
@@ -8,11 +8,13 @@ import {
 	getOperations,
 } from '../../redux/actions/actions';
 import AddOpModal from '../addOpModal/AddOpModal';
+import EditOpModal from '../editOpModal/EditOpModal';
 import { OpsTable } from '../OpsTable/OpsTable';
 
 export const Ops = () => {
-	const [visible, setVisible] = React.useState(false);
-
+	const [visible, setVisible] = useState(false);
+	const [visibleEdit, setVisibleEdit] = useState(false);
+	const opId = useRef();
 	const operations = useSelector((state) => state.filteredOperations);
 
 	const dispatch = useDispatch();
@@ -25,11 +27,17 @@ export const Ops = () => {
 	useEffect(() => {
 		dispatch(getOperations(mockUser.id));
 	}, [dispatch]);
+
 	const handler = () => setVisible(true);
+	const handlerEditModal = (id) => {
+		opId.current = id;
+		setVisibleEdit(true);
+	};
+
 	const closeHandler = () => {
 		setVisible(false);
-		console.log('closed');
 	};
+	const closeHandlerEditModal = () => setVisibleEdit(false);
 	return (
 		<div>
 			<Grid.Container>
@@ -51,10 +59,20 @@ export const Ops = () => {
 				handler={handler}
 				closeHandler={closeHandler}
 			/>
+			<EditOpModal
+				visibleEdit={visibleEdit}
+				handlerEditModal={handlerEditModal}
+				closeHandlerEditModal={closeHandlerEditModal}
+				opId={opId.current}
+			/>
 			<OpsTable
 				operations={operations.sort(
 					(a, b) => new Date(b.date) - new Date(a.date)
 				)}
+				home={false}
+				visibleEdit={visibleEdit}
+				handlerEditModal={handlerEditModal}
+				closeHandlerEditModal={closeHandlerEditModal}
 			/>
 		</div>
 	);
