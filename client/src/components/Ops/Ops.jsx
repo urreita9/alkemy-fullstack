@@ -1,4 +1,4 @@
-import { Button } from '@nextui-org/react';
+import { Button, Grid } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -7,9 +7,12 @@ import {
 	filterOutcome,
 	getOperations,
 } from '../../redux/actions/actions';
+import AddOpModal from '../addOpModal/AddOpModal';
 import { OpsTable } from '../OpsTable/OpsTable';
 
 export const Ops = () => {
+	const [visible, setVisible] = React.useState(false);
+
 	const operations = useSelector((state) => state.filteredOperations);
 
 	const dispatch = useDispatch();
@@ -24,14 +27,32 @@ export const Ops = () => {
 	useEffect(() => {
 		dispatch(getOperations(mockUser.id));
 	}, []);
-
+	const handler = () => setVisible(true);
+	const closeHandler = () => {
+		setVisible(false);
+		console.log('closed');
+	};
 	return (
 		<div>
-			<Button.Group color='secondary' size='sm'>
-				<Button onClick={() => dispatch(filterAll())}>All</Button>
-				<Button onClick={() => dispatch(filterIncome())}>Income</Button>
-				<Button onClick={() => dispatch(filterOutcome())}>Outcome</Button>
-			</Button.Group>
+			<Grid.Container>
+				<Grid xs={8}>
+					<Button.Group color='secondary' size='sm'>
+						<Button onClick={() => dispatch(filterAll())}>All</Button>
+						<Button onClick={() => dispatch(filterIncome())}>Income</Button>
+						<Button onClick={() => dispatch(filterOutcome())}>Outcome</Button>
+					</Button.Group>
+				</Grid>
+				<Grid xs={4}>
+					<Button auto shadow onClick={handler}>
+						Add Operation
+					</Button>
+				</Grid>
+			</Grid.Container>
+			<AddOpModal
+				visible={visible}
+				handler={handler}
+				closeHandler={closeHandler}
+			/>
 			<OpsTable
 				operations={operations.sort(
 					(a, b) => new Date(b.date) - new Date(a.date)
