@@ -35,6 +35,7 @@ const postRegister = async (req, res) => {
 
 const postLogin = async (req, res) => {
 	// Check errors in request body
+	console.log('entro');
 	const errors = validationResult(req);
 
 	if (!errors.isEmpty()) {
@@ -62,7 +63,21 @@ const postLogin = async (req, res) => {
 	res.status(200).json({ user: { id: user.id, email: user.email }, token });
 };
 
+const getUser = async (req, res) => {
+	const { id } = req.body;
+
+	try {
+		const user = await User.findByPk(id);
+
+		if (!user) return res.status(400).json({ msg: 'Wrong credentials' });
+
+		return res.json({ id: user.id, email: user.email });
+	} catch (error) {
+		return res.status(400).json({ msg: error });
+	}
+};
 module.exports = {
 	postRegister,
 	postLogin,
+	getUser,
 };

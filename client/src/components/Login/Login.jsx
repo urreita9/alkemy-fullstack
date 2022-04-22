@@ -1,13 +1,22 @@
 import { Button, Input, Text } from '@nextui-org/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../../redux/actions/actions';
 
 export const Login = () => {
 	const [form, setForm] = useState({
 		email: '',
 		password: '',
 	});
+	const logged = useSelector((state) => state.logged);
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	useEffect(() => {
+		if (logged) {
+			navigate('/');
+		}
+	}, [logged]);
 
 	const handleInputChange = (e) => {
 		setForm({
@@ -15,8 +24,15 @@ export const Login = () => {
 			[e.target.name]: e.target.value,
 		});
 	};
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		dispatch(login(form));
+	};
 	return (
-		<div style={{ minWidth: '200px', maxWidth: '500px', margin: '30px auto' }}>
+		<form
+			style={{ minWidth: '200px', maxWidth: '500px', margin: '30px auto' }}
+			onSubmit={handleSubmit}
+		>
 			<div>
 				<Text id='modal-title' b size={18}>
 					Sign In
@@ -34,6 +50,8 @@ export const Login = () => {
 						onChange={handleInputChange}
 						value={form.email}
 						name='email'
+						autoComplete='off'
+						aria-label='Email'
 					/>
 				</div>
 				<div style={{ marginTop: '20px' }}>
@@ -48,6 +66,8 @@ export const Login = () => {
 						value={form.password}
 						name='password'
 						type='password'
+						autoComplete='off'
+						aria-label='Password'
 					/>
 				</div>
 			</div>
@@ -67,10 +87,10 @@ export const Login = () => {
 				>
 					Dont have an account?
 				</Text>{' '}
-				<Button color='secondary' auto>
+				<Button color='secondary' auto type='submit'>
 					Sign in
 				</Button>
 			</div>
-		</div>
+		</form>
 	);
 };

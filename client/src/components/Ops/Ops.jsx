@@ -1,6 +1,7 @@
 import { Button, Grid } from '@nextui-org/react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import {
 	filterAll,
 	filterIncome,
@@ -11,7 +12,7 @@ import AddOpModal from '../addOpModal/AddOpModal';
 import EditOpModal from '../editOpModal/EditOpModal';
 import { OpsTable } from '../OpsTable/OpsTable';
 
-export const Ops = () => {
+export const Ops = ({ user }) => {
 	const [visible, setVisible] = useState(false);
 	const [visibleEdit, setVisibleEdit] = useState(false);
 	const opId = useRef();
@@ -38,6 +39,10 @@ export const Ops = () => {
 		setVisible(false);
 	};
 	const closeHandlerEditModal = () => setVisibleEdit(false);
+
+	if (!user) {
+		return <Navigate to='/login' replace />;
+	}
 	return (
 		<div>
 			<Grid.Container>

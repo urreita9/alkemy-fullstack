@@ -4,6 +4,8 @@ export const FILTER_ALL = 'FILTER_ALL';
 export const FILTER_INCOME = 'FILTER_INCOME';
 export const FILTER_OUTCOME = 'FILTER_OUTCOME';
 export const POST_OPERATION = 'POST_OPERATION';
+export const LOGIN_USER = 'LOGIN_USER';
+export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const getOperations = (id) => async (dispatch) => {
 	try {
@@ -63,3 +65,26 @@ export const postOperation =
 			console.log(error);
 		}
 	};
+
+export const login = (userData) => async (dispatch) => {
+	try {
+		const { data } = await api.post(`/auth/login`, userData);
+		if (data.token) {
+			localStorage.setItem('token-alkemy', data.token);
+			localStorage.setItem('uid-alkemy', data.user.id);
+			dispatch({
+				type: LOGIN_USER,
+				payload: data.user,
+			});
+		}
+	} catch (error) {
+		console.log(error.response);
+		alert(error.response.data.msg);
+	}
+};
+
+export const logout = () => {
+	localStorage.clear();
+
+	return { type: LOGOUT_USER, payload: null };
+};

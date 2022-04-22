@@ -1,10 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Text, useTheme } from '@nextui-org/react';
+import { useSelector } from 'react-redux';
 
 export const NavBar = () => {
+	const user = useSelector((state) => state.user);
 	const navigate = useNavigate();
 	const { theme } = useTheme();
+
+	console.log(user);
 	return (
 		<div
 			style={{
@@ -35,6 +39,9 @@ export const NavBar = () => {
 				<Text color='white' h3>
 					wallet
 				</Text>
+			</Text>
+			<Text color='white' h3>
+				{user?.email}
 			</Text>
 		</div>
 	);

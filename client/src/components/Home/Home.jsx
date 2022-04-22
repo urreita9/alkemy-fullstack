@@ -1,12 +1,12 @@
 import { Button } from '@nextui-org/react';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { getOperations } from '../../redux/actions/actions';
 import { Balance } from '../Balance/Balance';
 import { OpsTable } from '../OpsTable/OpsTable';
 
-export const Home = () => {
+export const Home = ({ user }) => {
 	const dispatch = useDispatch();
 	const operations = useSelector((state) => state.filteredOperations);
 	const navigate = useNavigate();
@@ -22,6 +22,10 @@ export const Home = () => {
 	useEffect(() => {
 		dispatch(getOperations(mockUser.id));
 	}, []);
+
+	if (!user) {
+		return <Navigate to='/login' replace />;
+	}
 
 	return (
 		<div>
