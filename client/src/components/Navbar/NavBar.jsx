@@ -24,7 +24,7 @@ export const NavBar = () => {
 				src='https://cdn-icons-png.flaticon.com/512/189/189709.png'
 			/>
 
-			<Button
+			<Text
 				onClick={() => {
 					navigate('/');
 				}}
@@ -35,7 +35,7 @@ export const NavBar = () => {
 				<Text color='white' h3>
 					wallet
 				</Text>
-			</Button>
+			</Text>
 		</div>
 	);
 };

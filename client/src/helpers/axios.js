@@ -49,3 +49,13 @@ export const editOperation = async (uid, { opId, description, amount }) => {
 		console.log(error);
 	}
 };
+
+export const login = async (userData) => {
+	try {
+		const { data } = await api.post(`/auth/login`, userData);
+
+		console.log(data);
+	} catch (error) {
+		console.log(error);
+	}
+};
