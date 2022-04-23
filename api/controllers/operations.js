@@ -12,7 +12,9 @@ const getOperations = async (req, res) => {
 			where: {
 				UserId: id,
 			},
+			include: [{ model: User, attributes: ['email'] }],
 		});
+
 		return res.json({ operations });
 	} catch (error) {
 		return res.status(500).json({ msg: 'Sorry, something went wrong.', error });

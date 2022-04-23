@@ -1,5 +1,6 @@
 import api from '../axios/axios';
 export const postOperation = async (id, { description, amount, opType }) => {
+	const token = localStorage.getItem('token-alkemy');
 	try {
 		const { data } = await api.post(
 			`/operation`,
@@ -11,8 +12,7 @@ export const postOperation = async (id, { description, amount, opType }) => {
 			},
 			{
 				headers: {
-					'x-token':
-						'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU3YTgxZDE5LTI4ZTgtNGI0MC1hMWMyLTNiNzcyZjY3OGIxYiIsImlhdCI6MTY1MDUxMjUwMH0.unIyLCJS3ZyGDrjsCKMm4mF_Jl-GRqvVFMP7vc0Nz0o',
+					'x-token': token,
 				},
 			}
 		);
@@ -26,6 +26,7 @@ export const postOperation = async (id, { description, amount, opType }) => {
 };
 
 export const editOperation = async (uid, { opId, description, amount }) => {
+	const token = localStorage.getItem('token-alkemy');
 	try {
 		const { data } = await api.put(
 			`/operation/${opId}`,
@@ -36,8 +37,7 @@ export const editOperation = async (uid, { opId, description, amount }) => {
 			},
 			{
 				headers: {
-					'x-token':
-						'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU3YTgxZDE5LTI4ZTgtNGI0MC1hMWMyLTNiNzcyZjY3OGIxYiIsImlhdCI6MTY1MDUxMjUwMH0.unIyLCJS3ZyGDrjsCKMm4mF_Jl-GRqvVFMP7vc0Nz0o',
+					'x-token': token,
 				},
 			}
 		);
@@ -47,5 +47,35 @@ export const editOperation = async (uid, { opId, description, amount }) => {
 		}
 	} catch (error) {
 		console.log(error);
+	}
+};
+
+export const login = async (userData) => {
+	try {
+		const { data } = await api.post(`/auth/login`, userData);
+		if (data.token) {
+			localStorage.setItem('token-alkemy', data.token);
+			localStorage.setItem('uid-alkemy', data.user.id);
+		}
+		return data;
+	} catch (error) {
+		console.log(error.response);
+		alert(error.response.data.msg);
+	}
+};
+
+export const logout = () => {
+	localStorage.clear();
+};
+
+export const register = async (userData) => {
+	try {
+		const { data } = await api.post(`/auth/register`, userData);
+		if (data.email) {
+			return true;
+		}
+	} catch (error) {
+		console.log(error.response);
+		alert(error.response.data.msg);
 	}
 };

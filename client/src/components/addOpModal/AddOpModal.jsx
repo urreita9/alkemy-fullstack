@@ -31,7 +31,7 @@ export default function AddOpModal({
 		amount: '',
 	});
 	const dispatch = useDispatch();
-
+	const uid = localStorage.getItem('uid-alkemy');
 	const handleInputChange = (e) => {
 		setForm({
 			...form,
@@ -76,8 +76,8 @@ export default function AddOpModal({
 	const handleSubmit = () => {
 		if (errors.description || errors.amount) return;
 
-		postOperation('57a81d19-28e8-4b40-a1c2-3b772f678b1b', form).then((data) => {
-			dispatch(getOperations('57a81d19-28e8-4b40-a1c2-3b772f678b1b'));
+		postOperation(uid, form).then((data) => {
+			dispatch(getOperations(uid));
 		});
 	};
 

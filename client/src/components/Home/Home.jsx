@@ -10,7 +10,7 @@ export const Home = ({ user }) => {
 	const dispatch = useDispatch();
 	const operations = useSelector((state) => state.filteredOperations);
 	const navigate = useNavigate();
-
+	const uid = localStorage.getItem('uid-alkemy');
 	const orderedOperations = operations.sort(
 		(a, b) => new Date(b.date) - new Date(a.date)
 	);
@@ -20,8 +20,11 @@ export const Home = ({ user }) => {
 		password: 123456,
 	};
 	useEffect(() => {
-		dispatch(getOperations(mockUser.id));
+		if (user) {
+			dispatch(getOperations(uid));
+		}
 	}, []);
+	console.log(operations);
 
 	if (!user) {
 		return <Navigate to='/login' replace />;

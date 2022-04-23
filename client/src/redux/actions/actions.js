@@ -8,11 +8,11 @@ export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const getOperations = (id) => async (dispatch) => {
+	const token = localStorage.getItem('token-alkemy');
 	try {
 		const { data } = await api.get(`/operations/${id}`, {
 			headers: {
-				'x-token':
-					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU3YTgxZDE5LTI4ZTgtNGI0MC1hMWMyLTNiNzcyZjY3OGIxYiIsImlhdCI6MTY1MDUxMjUwMH0.unIyLCJS3ZyGDrjsCKMm4mF_Jl-GRqvVFMP7vc0Nz0o',
+				'x-token': token,
 			},
 		});
 
@@ -42,6 +42,7 @@ export const filterOutcome = () => ({
 export const postOperation =
 	(id, { description, amount, opType }) =>
 	async (dispatch) => {
+		const token = localStorage.getItem('token-alkemy');
 		try {
 			const { data } = await api.post(
 				`/operation`,
@@ -53,8 +54,7 @@ export const postOperation =
 				},
 				{
 					headers: {
-						'x-token':
-							'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU3YTgxZDE5LTI4ZTgtNGI0MC1hMWMyLTNiNzcyZjY3OGIxYiIsImlhdCI6MTY1MDUxMjUwMH0.unIyLCJS3ZyGDrjsCKMm4mF_Jl-GRqvVFMP7vc0Nz0o',
+						'x-token': token,
 					},
 				}
 			);
@@ -65,26 +65,3 @@ export const postOperation =
 			console.log(error);
 		}
 	};
-
-export const login = (userData) => async (dispatch) => {
-	try {
-		const { data } = await api.post(`/auth/login`, userData);
-		if (data.token) {
-			localStorage.setItem('token-alkemy', data.token);
-			localStorage.setItem('uid-alkemy', data.user.id);
-			dispatch({
-				type: LOGIN_USER,
-				payload: data.user,
-			});
-		}
-	} catch (error) {
-		console.log(error.response);
-		alert(error.response.data.msg);
-	}
-};
-
-export const logout = () => {
-	localStorage.clear();
-
-	return { type: LOGOUT_USER, payload: null };
-};

@@ -17,13 +17,13 @@ export default function EditOpModal({
 		description: '',
 		amount: '',
 	});
+	const uid = localStorage.getItem('uid-alkemy');
 
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		return () =>
-			dispatch(getOperations('57a81d19-28e8-4b40-a1c2-3b772f678b1b'));
-	}, []);
+	// useEffect(() => {
+	// 	return () => dispatch(getOperations(uid));
+	// }, []);
 
 	const handleInputChange = (e) => {
 		setForm({
@@ -70,12 +70,12 @@ export default function EditOpModal({
 		console.log(opId);
 		if (errors.description || errors.amount) return;
 
-		editOperation('57a81d19-28e8-4b40-a1c2-3b772f678b1b', {
+		editOperation(uid, {
 			opId,
 			description: form.description,
 			amount: form.amount,
 		}).then((data) => {
-			dispatch(getOperations('57a81d19-28e8-4b40-a1c2-3b772f678b1b'));
+			dispatch(getOperations(uid));
 		});
 	};
 

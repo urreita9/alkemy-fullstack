@@ -1,22 +1,15 @@
 import { Button, Input, Text } from '@nextui-org/react';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../redux/actions/actions';
+import { login } from '../../helpers/axios';
 
 export const Login = () => {
 	const [form, setForm] = useState({
 		email: '',
 		password: '',
 	});
-	const logged = useSelector((state) => state.logged);
-	const dispatch = useDispatch();
+
 	const navigate = useNavigate();
-	useEffect(() => {
-		if (logged) {
-			navigate('/');
-		}
-	}, [logged]);
 
 	const handleInputChange = (e) => {
 		setForm({
@@ -26,7 +19,11 @@ export const Login = () => {
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		dispatch(login(form));
+		login(form).then((data) => {
+			if (data.token) {
+				navigate('/');
+			}
+		});
 	};
 	return (
 		<form

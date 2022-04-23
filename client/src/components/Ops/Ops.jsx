@@ -1,7 +1,7 @@
 import { Button, Grid } from '@nextui-org/react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import {
 	filterAll,
 	filterIncome,
@@ -17,8 +17,9 @@ export const Ops = ({ user }) => {
 	const [visibleEdit, setVisibleEdit] = useState(false);
 	const opId = useRef();
 	const operations = useSelector((state) => state.filteredOperations);
-
+	const token = localStorage.getItem('token-alkemy');
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const mockUser = {
 		id: '57a81d19-28e8-4b40-a1c2-3b772f678b1b',
@@ -26,6 +27,9 @@ export const Ops = ({ user }) => {
 		password: 123456,
 	};
 	useEffect(() => {
+		if (!token) {
+			navigate('/login');
+		}
 		dispatch(getOperations(mockUser.id));
 	}, [dispatch]);
 

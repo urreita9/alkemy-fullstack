@@ -19,6 +19,9 @@ import { getUser } from './redux/actions/actions';
 function App() {
 	const dispatch = useDispatch();
 	const token = localStorage.getItem('token-alkemy');
+	// useEffect(()=>{
+	// 	console.log(token)
+	// },[token])
 
 	return (
 		<NextUIProvider>
