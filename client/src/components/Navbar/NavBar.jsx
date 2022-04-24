@@ -17,6 +17,7 @@ export const NavBar = () => {
 	return (
 		<div
 			style={{
+				height: '80px',
 				display: 'flex',
 				flexDirection: 'row',
 				width: '100%',
@@ -44,10 +45,9 @@ export const NavBar = () => {
 						<Text color='white' h6>
 							{user.email}
 						</Text>
-						<Button color='secondary' size='sm' onClick={logoutUser}>
+						<Button color='secondary' size='xs' onClick={logoutUser}>
 							Logout
 						</Button>
-						)
 					</>
 				)}
 			</div>

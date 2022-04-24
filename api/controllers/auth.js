@@ -35,7 +35,7 @@ const postRegister = async (req, res) => {
 
 const postLogin = async (req, res) => {
 	// Check errors in request body
-	console.log('entro');
+
 	const errors = validationResult(req);
 
 	if (!errors.isEmpty()) {
@@ -76,8 +76,8 @@ const getUser = async (req, res) => {
 		if (!user) return res.status(400).json({ msg: 'Wrong credentials' });
 
 		return res.json({
-			user: { id: user.id, email: user.email },
-			token,
+			user: { id: user.dataValues.id, email: user.dataValues.email },
+
 			auth: true,
 		});
 	} catch (error) {

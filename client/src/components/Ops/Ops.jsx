@@ -7,6 +7,7 @@ import {
 	filterIncome,
 	filterOutcome,
 	getOperations,
+	getUser,
 	logout,
 } from '../../redux/actions/actions';
 import AddOpModal from '../addOpModal/AddOpModal';
@@ -21,9 +22,16 @@ export const Ops = () => {
 	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const token = localStorage.getItem('token-alkemy');
 
 	useEffect(() => {
-		if (!user.auth) {
+		if (token) {
+			if (!user.auth) {
+				dispatch(getUser(token));
+			} else if (!operations.length) {
+				dispatch(getOperations(user.id));
+			}
+		} else {
 			dispatch(logout());
 			navigate('/login');
 		}
@@ -46,17 +54,12 @@ export const Ops = () => {
 	return (
 		<div>
 			<Grid.Container>
-				<Grid xs={8}>
+				<Grid xs={12} style={{ justifyContent: 'center', display: 'flex' }}>
 					<Button.Group color='secondary' size='sm'>
 						<Button onClick={() => dispatch(filterAll())}>All</Button>
 						<Button onClick={() => dispatch(filterIncome())}>Income</Button>
 						<Button onClick={() => dispatch(filterOutcome())}>Outcome</Button>
 					</Button.Group>
-				</Grid>
-				<Grid xs={4}>
-					<Button auto shadow onClick={handler}>
-						Add Operation
-					</Button>
 				</Grid>
 			</Grid.Container>
 			<AddOpModal
@@ -79,6 +82,11 @@ export const Ops = () => {
 				handlerEditModal={handlerEditModal}
 				closeHandlerEditModal={closeHandlerEditModal}
 			/>
+			<Grid xs={12} style={{ justifyContent: 'center', display: 'flex' }}>
+				<Button auto shadow onClick={handler}>
+					Add Operation
+				</Button>
+			</Grid>
 		</div>
 	);
 };

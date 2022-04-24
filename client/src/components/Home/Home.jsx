@@ -2,7 +2,7 @@ import { Button } from '@nextui-org/react';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { getOperations, logout } from '../../redux/actions/actions';
+import { getOperations, getUser, logout } from '../../redux/actions/actions';
 import { Balance } from '../Balance/Balance';
 import { OpsTable } from '../OpsTable/OpsTable';
 
@@ -16,19 +16,19 @@ export const Home = () => {
 		(a, b) => new Date(b.date) - new Date(a.date)
 	);
 	const token = localStorage.getItem('token-alkemy');
-	useEffect(() => {
-		if (user.auth) {
-			dispatch(getOperations(user.id));
-		} else {
-			if (token) {
-				console.log('gato');
-				return;
-			}
 
+	useEffect(() => {
+		if (token) {
+			if (!user.auth) {
+				dispatch(getUser(token));
+			} else {
+				dispatch(getOperations(user.id));
+			}
+		} else {
 			dispatch(logout());
 			navigate('/login');
 		}
-	}, [user]);
+	}, [dispatch]);
 
 	return (
 		<div>

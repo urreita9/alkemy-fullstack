@@ -23,8 +23,8 @@ export const StyledBadge = styled('span', {
 			},
 
 			outcome: {
-				bg: '$warningLight',
-				color: '$warning',
+				bg: '$errorLight',
+				color: '$error',
 			},
 		},
 	},

@@ -105,7 +105,10 @@ export const getUser = (token) => async (dispatch) => {
 			},
 		});
 
+		console.log('GET USER ACTION', data);
+
 		if (data.auth) {
+			dispatch(getOperations(data.user.id));
 			dispatch({
 				type: LOGIN_USER,
 				payload: { id: data.user.id, email: data.user.email, auth: data.auth },

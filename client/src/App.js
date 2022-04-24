@@ -17,17 +17,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from './redux/actions/actions';
 
 function App() {
-	const user = useSelector((state) => state.user);
-	const dispatch = useDispatch();
-	const token = localStorage.getItem('token-alkemy');
-	useEffect(() => {
-		if (token) {
-			if (!user.auth) {
-				dispatch(getUser(token));
-			}
-		}
-	}, [dispatch]);
-
 	return (
 		<NextUIProvider>
 			<Router>

@@ -1,22 +1,25 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Table, Row, Col, Tooltip, User, Text } from '@nextui-org/react';
+import { Table, Row, Col, Tooltip, Text } from '@nextui-org/react';
 import { StyledBadge } from './StyledBadge';
 import { IconButton } from './IconButton';
 import { EditIcon } from './EditIcon';
 import { DeleteIcon } from './DeleteIcon';
-import { editOperation } from '../../helpers/axios';
-import AddOpModal from '../addOpModal/AddOpModal';
-import EditOpModal from '../editOpModal/EditOpModal';
 
 export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 	const columns = [
 		{ name: 'DESCRIPTION', uid: 'description' },
 		{ name: 'AMOUNT', uid: 'amount' },
 		{ name: 'OPTYPE', uid: 'opType' },
+		{ name: 'DATE', uid: 'updatedAt' },
 		{ name: 'ACTIONS', uid: 'actions' },
 	];
 
+	const amountToDollars = (amount) => {
+		const dollarUSLocale = Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'USD',
+		});
+		return dollarUSLocale.format(amount);
+	};
 	const renderCell = (operation, columnKey) => {
 		const cellValue = operation[columnKey];
 
@@ -31,19 +34,29 @@ export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 						</Row>
 					</Col>
 				);
-			case 'role':
+			case 'amount':
 				return (
 					<Col>
 						<Row>
 							<Text b size={14} css={{ tt: 'capitalize' }}>
-								{cellValue}
+								{amountToDollars(cellValue)}
 							</Text>
 						</Row>
 					</Col>
 				);
-			case 'status':
+			case 'opType':
 				return <StyledBadge type={operation.opType}>{cellValue}</StyledBadge>;
 
+			case 'updatedAt':
+				return (
+					<Col>
+						<Row>
+							<Text b size={14} css={{ tt: 'capitalize' }}>
+								{cellValue.slice(0, 10)}
+							</Text>
+						</Row>
+					</Col>
+				);
 			case 'actions':
 				return (
 					<>
