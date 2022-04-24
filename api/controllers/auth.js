@@ -39,7 +39,7 @@ const postLogin = async (req, res) => {
 	const errors = validationResult(req);
 
 	if (!errors.isEmpty()) {
-		return res.status(400).json(errors);
+		return res.status(400).json({ errors, auth: false });
 	}
 
 	const { email, password } = req.body;
@@ -48,30 +48,38 @@ const postLogin = async (req, res) => {
 	const user = await User.findOne({ where: { email } });
 
 	if (!user) {
-		return res.status(400).json({ msg: 'Wrong Email or Password' });
+		return res
+			.status(400)
+			.json({ msg: 'Wrong Email or Password', auth: false });
 	}
 
 	// Compare password with hashed password in db
 	const comparePassword = bcryptjs.compareSync(password, user.password);
 
 	if (!comparePassword) {
-		return res.status(400).json({ msg: 'Wrong Email or Password' });
+		return res
+			.status(400)
+			.json({ msg: 'Wrong Email or Password', auth: false });
 	}
 
 	const token = await generateJWT(user.id);
 
-	res.status(200).json({ user: { id: user.id, email: user.email }, token });
+	res
+		.status(200)
+		.json({ user: { id: user.id, email: user.email }, token, auth: true });
 };
 
 const getUser = async (req, res) => {
-	const { id } = req.body;
-
 	try {
-		const user = await User.findByPk(id);
+		const user = await User.findByPk(req.id);
 
 		if (!user) return res.status(400).json({ msg: 'Wrong credentials' });
 
-		return res.json({ id: user.id, email: user.email });
+		return res.json({
+			user: { id: user.id, email: user.email },
+			token,
+			auth: true,
+		});
 	} catch (error) {
 		return res.status(400).json({ msg: error });
 	}

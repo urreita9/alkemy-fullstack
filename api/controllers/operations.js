@@ -12,7 +12,7 @@ const getOperations = async (req, res) => {
 			where: {
 				UserId: id,
 			},
-			include: [{ model: User, attributes: ['email'] }],
+			// include: [{ model: User, attributes: ['email'] }],
 		});
 
 		return res.json({ operations });

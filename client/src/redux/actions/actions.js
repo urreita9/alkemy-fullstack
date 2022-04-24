@@ -12,7 +12,7 @@ export const getOperations = (id) => async (dispatch) => {
 	try {
 		const { data } = await api.get(`/operations/${id}`, {
 			headers: {
-				'x-token': token,
+				Authorization: `Bearer ${token}`,
 			},
 		});
 
@@ -54,7 +54,7 @@ export const postOperation =
 				},
 				{
 					headers: {
-						'x-token': token,
+						Authorization: `Bearer ${token}`,
 					},
 				}
 			);
@@ -65,3 +65,59 @@ export const postOperation =
 			console.log(error);
 		}
 	};
+
+export const login = (userData) => async (dispatch) => {
+	try {
+		const { data } = await api.post(`/auth/login`, userData);
+		console.log('LOGIN', data);
+		if (data.auth) {
+			localStorage.setItem('token-alkemy', data.token);
+			localStorage.setItem('uid-alkemy', data.user.id);
+			dispatch({
+				type: LOGIN_USER,
+				payload: { id: data.user.id, email: data.user.email, auth: data.auth },
+			});
+		} else {
+			dispatch({
+				type: LOGOUT_USER,
+				payload: { id: null, email: null, auth: false },
+			});
+		}
+	} catch (error) {
+		console.log(error.response);
+		alert(error.response.data.msg);
+	}
+};
+
+export const logout = () => {
+	localStorage.clear();
+	return {
+		type: LOGOUT_USER,
+		payload: { id: null, email: null, auth: false },
+	};
+};
+
+export const getUser = (token) => async (dispatch) => {
+	try {
+		const { data } = await api.get(`/user`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (data.auth) {
+			dispatch({
+				type: LOGIN_USER,
+				payload: { id: data.user.id, email: data.user.email, auth: data.auth },
+			});
+		} else {
+			dispatch({
+				type: LOGOUT_USER,
+				payload: { id: null, email: null, auth: false },
+			});
+		}
+	} catch (error) {
+		console.log(error.response);
+		alert(error.response.data.msg);
+	}
+};

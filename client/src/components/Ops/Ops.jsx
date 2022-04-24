@@ -7,30 +7,26 @@ import {
 	filterIncome,
 	filterOutcome,
 	getOperations,
+	logout,
 } from '../../redux/actions/actions';
 import AddOpModal from '../addOpModal/AddOpModal';
 import EditOpModal from '../editOpModal/EditOpModal';
 import { OpsTable } from '../OpsTable/OpsTable';
 
-export const Ops = ({ user }) => {
+export const Ops = () => {
 	const [visible, setVisible] = useState(false);
 	const [visibleEdit, setVisibleEdit] = useState(false);
 	const opId = useRef();
 	const operations = useSelector((state) => state.filteredOperations);
-	const token = localStorage.getItem('token-alkemy');
+	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const mockUser = {
-		id: '57a81d19-28e8-4b40-a1c2-3b772f678b1b',
-		email: 'fran@mail.com',
-		password: 123456,
-	};
 	useEffect(() => {
-		if (!token) {
+		if (!user.auth) {
+			dispatch(logout());
 			navigate('/login');
 		}
-		dispatch(getOperations(mockUser.id));
 	}, [dispatch]);
 
 	const handler = () => setVisible(true);

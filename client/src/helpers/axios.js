@@ -12,7 +12,7 @@ export const postOperation = async (id, { description, amount, opType }) => {
 			},
 			{
 				headers: {
-					'x-token': token,
+					Authorization: `Bearer ${token}`,
 				},
 			}
 		);
@@ -37,7 +37,7 @@ export const editOperation = async (uid, { opId, description, amount }) => {
 			},
 			{
 				headers: {
-					'x-token': token,
+					Authorization: `Bearer ${token}`,
 				},
 			}
 		);

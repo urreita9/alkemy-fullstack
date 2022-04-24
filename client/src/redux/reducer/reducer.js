@@ -3,10 +3,13 @@ import {
 	FILTER_ALL,
 	FILTER_INCOME,
 	FILTER_OUTCOME,
+	LOGIN_USER,
+	LOGOUT_USER,
 } from '../actions/actions';
 const initialState = {
 	operations: [],
 	filteredOperations: [],
+	user: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -40,6 +43,16 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				filteredOperations: filterOutcome,
+			};
+		case LOGIN_USER:
+			return {
+				...state,
+				user: payload,
+			};
+		case LOGOUT_USER:
+			return {
+				...state,
+				user: payload,
 			};
 
 		default:

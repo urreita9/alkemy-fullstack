@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Text, Input } from '@nextui-org/react';
 import { editOperation } from '../../helpers/axios';
 import { getOperations } from '../../redux/actions/actions';
@@ -17,13 +17,10 @@ export default function EditOpModal({
 		description: '',
 		amount: '',
 	});
-	const uid = localStorage.getItem('uid-alkemy');
+
+	const user = useSelector((state) => state.user);
 
 	const dispatch = useDispatch();
-
-	// useEffect(() => {
-	// 	return () => dispatch(getOperations(uid));
-	// }, []);
 
 	const handleInputChange = (e) => {
 		setForm({
@@ -67,15 +64,14 @@ export default function EditOpModal({
 	};
 
 	const handleEdit = () => {
-		console.log(opId);
 		if (errors.description || errors.amount) return;
 
-		editOperation(uid, {
+		editOperation(user.id, {
 			opId,
 			description: form.description,
 			amount: form.amount,
-		}).then((data) => {
-			dispatch(getOperations(uid));
+		}).then(() => {
+			dispatch(getOperations(user.id));
 		});
 	};
 

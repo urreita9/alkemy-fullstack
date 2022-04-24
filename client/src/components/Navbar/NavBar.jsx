@@ -1,17 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Text, useTheme } from '@nextui-org/react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux/actions/actions';
 
 export const NavBar = () => {
-	const operations = useSelector((state) => state.operations);
+	const user = useSelector((state) => state.user);
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { theme } = useTheme();
 
-	const token = localStorage.getItem('token-alkemy');
-
-	const logout = () => {
-		localStorage.clear();
+	const logoutUser = () => {
+		dispatch(logout());
 		navigate('/login');
 	};
 	return (
@@ -29,7 +29,9 @@ export const NavBar = () => {
 			<div
 				style={{ cursor: 'pointer' }}
 				onClick={() => {
-					navigate('/');
+					if (user.auth) {
+						navigate('/');
+					}
 				}}
 			>
 				<Text color='white' h2>
@@ -37,13 +39,12 @@ export const NavBar = () => {
 				</Text>
 			</div>
 			<div style={{ textAlign: 'center' }}>
-				{' '}
-				{token?.length && (
+				{user.auth && (
 					<>
 						<Text color='white' h6>
-							{operations.length && operations[0].User.email}
+							{user.email}
 						</Text>
-						<Button color='secondary' size='sm' onClick={logout}>
+						<Button color='secondary' size='sm' onClick={logoutUser}>
 							Logout
 						</Button>
 						)

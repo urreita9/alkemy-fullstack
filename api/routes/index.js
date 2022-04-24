@@ -32,6 +32,7 @@ router.post(
 	],
 	postLogin
 );
+router.get('/user', validateJWT, getUser);
 
 router.get('/operations/:id', validateJWT, getOperations);
 router.post('/operation', validateJWT, postOperation);

@@ -1,37 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-	Modal,
-	Button,
-	Text,
-	Input,
-	Row,
-	Checkbox,
-	Radio,
-} from '@nextui-org/react';
-import { editOperation, postOperation } from '../../helpers/axios';
+import { Modal, Button, Text, Input, Radio } from '@nextui-org/react';
+import { postOperation } from '../../helpers/axios';
 import { getOperations } from '../../redux/actions/actions';
-// import { Mail } from './Mail';
-// import { Password } from './Password';
 
-export default function AddOpModal({
-	visible,
-	handler,
-	closeHandler,
-	updateOp = false,
-	opId,
-}) {
-	const [form, setForm] = useState({
-		description: '',
-		amount: 0,
-		opType: 'income',
-	});
+const initialForm = {
+	description: '',
+	amount: 0,
+	opType: 'income',
+};
+export default function AddOpModal({ visible, closeHandler }) {
+	const [form, setForm] = useState(initialForm);
 	const [errors, setErrors] = useState({
 		description: '',
 		amount: '',
 	});
 	const dispatch = useDispatch();
 	const uid = localStorage.getItem('uid-alkemy');
+
 	const handleInputChange = (e) => {
 		setForm({
 			...form,
@@ -88,7 +74,10 @@ export default function AddOpModal({
 				aria-labelledby='modal-title'
 				aria-label='form'
 				open={visible}
-				onClose={closeHandler}
+				onClose={() => {
+					setForm(initialForm);
+					closeHandler();
+				}}
 			>
 				<Modal.Header>
 					<Text id='modal-title' size={18}>
