@@ -3,8 +3,13 @@ import { StyledBadge } from './StyledBadge';
 import { IconButton } from './IconButton';
 import { EditIcon } from './EditIcon';
 import { DeleteIcon } from './DeleteIcon';
+import { editOperation } from '../../helpers/axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOperations } from '../../redux/actions/actions';
 
 export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
+	const user = useSelector((state) => state.user);
+	const dispatch = useDispatch();
 	const columns = [
 		{ name: 'DESCRIPTION', uid: 'description' },
 		{ name: 'AMOUNT', uid: 'amount' },
@@ -20,9 +25,20 @@ export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 		});
 		return dollarUSLocale.format(amount);
 	};
+
 	const renderCell = (operation, columnKey) => {
 		const cellValue = operation[columnKey];
 
+		const handleDelete = (opId) => {
+			editOperation(user.id, {
+				opId,
+				description: '',
+				amount: 0,
+				active: false,
+			}).then(() => {
+				dispatch(getOperations(user.id));
+			});
+		};
 		switch (columnKey) {
 			case 'description':
 				return (
@@ -52,7 +68,7 @@ export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 					<Col>
 						<Row>
 							<Text b size={14} css={{ tt: 'capitalize' }}>
-								{cellValue.slice(0, 10)}
+								{cellValue && cellValue.slice(0, 10)}
 							</Text>
 						</Row>
 					</Col>
@@ -75,7 +91,9 @@ export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 									<Tooltip
 										content='Delete operation'
 										color='error'
-										onClick={() => console.log('Delete user', operation.id)}
+										onClick={() => {
+											handleDelete(operation.id);
+										}}
 									>
 										<IconButton>
 											<DeleteIcon size={20} fill='#FF0080' />

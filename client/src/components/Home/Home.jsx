@@ -12,9 +12,8 @@ export const Home = () => {
 	const user = useSelector((state) => state.user);
 	const navigate = useNavigate();
 	// const uid = localStorage.getItem('uid-alkemy');
-	const orderedOperations = operations.sort(
-		(a, b) => new Date(b.date) - new Date(a.date)
-	);
+	const orderedOperations =
+		operations?.sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
 	const token = localStorage.getItem('token-alkemy');
 
 	useEffect(() => {

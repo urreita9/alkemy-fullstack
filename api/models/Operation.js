@@ -23,5 +23,10 @@ module.exports = (sequelize) => {
 			type: DataTypes.ENUM('income', 'outcome'),
 			allowNull: false,
 		},
+		active: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: true,
+		},
 	});
 };

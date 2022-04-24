@@ -15,7 +15,11 @@ const getOperations = async (req, res) => {
 			// include: [{ model: User, attributes: ['email'] }],
 		});
 
-		return res.json({ operations });
+		const activeOperations = operations.filter(
+			(operation) => operation.active === true
+		);
+
+		return res.json(activeOperations);
 	} catch (error) {
 		return res.status(500).json({ msg: 'Sorry, something went wrong.', error });
 	}
@@ -49,11 +53,12 @@ const postOperation = async (req, res) => {
 };
 
 const updateOperation = async (req, res) => {
-	const body = req.body;
+	const { active, ...resto } = req.body;
 	const { id } = req.params;
 
+	console.log('UPDATE', req.body);
 	try {
-		const user = await User.findByPk(body.uid);
+		const user = await User.findByPk(req.body.uid);
 		if (!user) return res.status(404).json({ msg: 'User does not exist' });
 
 		const operation = await Operation.findByPk(id);
@@ -62,12 +67,15 @@ const updateOperation = async (req, res) => {
 			return res.status(404).json({ msg: 'Operation does not exist' });
 
 		const { opType } = operation;
+		console.log('ACTIVE FROM BODY', active);
 
 		const updatedOperation = await operation.update({
 			...operation,
-			...body,
+			...resto,
 			opType,
+			active,
 		});
+		console.log('UPDATED ACTIVE', updatedOperation);
 
 		return res.json(updatedOperation);
 	} catch (error) {

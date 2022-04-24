@@ -15,10 +15,11 @@ export const getOperations = (id) => async (dispatch) => {
 				Authorization: `Bearer ${token}`,
 			},
 		});
+		console.log(data);
 
 		dispatch({
 			type: GET_OPERATIONS,
-			payload: data.operations,
+			payload: data,
 		});
 	} catch (error) {
 		console.log(error);
@@ -39,32 +40,31 @@ export const filterOutcome = () => ({
 	payload: null,
 });
 
-export const postOperation =
-	(id, { description, amount, opType }) =>
-	async (dispatch) => {
-		const token = localStorage.getItem('token-alkemy');
-		try {
-			const { data } = await api.post(
-				`/operation`,
-				{
-					id,
-					description,
-					amount,
-					opType,
+export const postOperation = async (id, { description, amount, opType }) => {
+	const token = localStorage.getItem('token-alkemy');
+	try {
+		const { data } = await api.post(
+			`/operation`,
+			{
+				id,
+				description,
+				amount,
+				opType,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
 				},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			);
-			if (data) {
-				getOperations(id);
 			}
-		} catch (error) {
-			console.log(error);
+		);
+
+		if (data) {
+			return data;
 		}
-	};
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 export const login = (userData) => async (dispatch) => {
 	try {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Text, Input, Radio } from '@nextui-org/react';
-import { postOperation } from '../../helpers/axios';
-import { getOperations } from '../../redux/actions/actions';
+
+import { getOperations, postOperation } from '../../redux/actions/actions';
 
 const initialForm = {
 	description: '',
@@ -15,8 +15,8 @@ export default function AddOpModal({ visible, closeHandler }) {
 		description: '',
 		amount: '',
 	});
+	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
-	const uid = localStorage.getItem('uid-alkemy');
 
 	const handleInputChange = (e) => {
 		setForm({
@@ -62,8 +62,8 @@ export default function AddOpModal({ visible, closeHandler }) {
 	const handleSubmit = () => {
 		if (errors.description || errors.amount) return;
 
-		postOperation(uid, form).then((data) => {
-			dispatch(getOperations(uid));
+		postOperation(user.id, form).then((data) => {
+			dispatch(getOperations(data.UserId));
 		});
 	};
 

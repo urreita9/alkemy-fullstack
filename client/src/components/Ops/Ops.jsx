@@ -24,6 +24,9 @@ export const Ops = () => {
 	const navigate = useNavigate();
 	const token = localStorage.getItem('token-alkemy');
 
+	const sortedOperations = operations?.length
+		? operations.sort((a, b) => new Date(b.date) - new Date(a.date))
+		: [];
 	useEffect(() => {
 		if (token) {
 			if (!user.auth) {
@@ -74,9 +77,7 @@ export const Ops = () => {
 				opId={opId.current}
 			/>
 			<OpsTable
-				operations={operations.sort(
-					(a, b) => new Date(b.date) - new Date(a.date)
-				)}
+				operations={sortedOperations}
 				home={false}
 				visibleEdit={visibleEdit}
 				handlerEditModal={handlerEditModal}

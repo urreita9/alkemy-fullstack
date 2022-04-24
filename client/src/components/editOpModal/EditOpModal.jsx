@@ -70,6 +70,7 @@ export default function EditOpModal({
 			opId,
 			description: form.description,
 			amount: form.amount,
+			erase: false,
 		}).then(() => {
 			dispatch(getOperations(user.id));
 		});
