@@ -3,18 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Text, Input, Radio } from '@nextui-org/react';
 
 import { getOperations, postOperation } from '../../redux/actions/actions';
+import { checkAddForm } from '../Forms/AddOpForm';
 
 const initialForm = {
 	description: '',
 	amount: 0,
 	opType: 'income',
 };
+
+const initErrors = {
+	state: false,
+	description: '',
+	amount: 0,
+};
 export default function AddOpModal({ visible, closeHandler }) {
 	const [form, setForm] = useState(initialForm);
-	const [errors, setErrors] = useState({
-		description: '',
-		amount: '',
-	});
+	const [errors, setErrors] = useState(initErrors);
 	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
@@ -24,47 +28,22 @@ export default function AddOpModal({ visible, closeHandler }) {
 			state: true,
 			[e.target.name]: e.target.value,
 		});
-		if (e.target.name === 'description') {
-			if (!e.target.value.trim(' ').length) {
-				setErrors({
-					...errors,
-					description: 'Description cant be empty',
-				});
-			} else if (!e.target.value.length) {
-				setErrors({
-					...errors,
-					description: 'Must write a description',
-				});
-			} else {
-				setErrors({
-					...errors,
-					description: '',
-				});
-			}
-		}
-		if (e.target.name === 'amount') {
-			const number = Number(e.target.value);
-			if (!number || number < 0) {
-				setErrors({
-					...errors,
-					state: true,
-					amount: 'Number must be greater than cero',
-				});
-			} else {
-				setErrors({
-					...errors,
-					amount: '',
-				});
-			}
-		}
+		setErrors({
+			...errors,
+			[e.target.name]: '',
+		});
 	};
 
 	const handleSubmit = () => {
-		if (errors.description || errors.amount) return;
-
-		postOperation(user.id, form).then((data) => {
-			dispatch(getOperations(data.UserId));
+		const check = checkAddForm(form);
+		setErrors((prevState) => {
+			return { ...prevState, ...check };
 		});
+		if (!check.state) {
+			postOperation(user.id, form).then((data) => {
+				dispatch(getOperations(data.UserId));
+			});
+		}
 	};
 
 	return (
@@ -102,6 +81,9 @@ export default function AddOpModal({ visible, closeHandler }) {
 						status={errors.description.length ? 'error' : 'secondary'}
 						// contentLeft={<Mail fill='currentColor' />}
 					/>
+					{errors.description && (
+						<Text color='error'>{errors.description}</Text>
+					)}
 					<Input
 						clearable
 						bordered
@@ -117,7 +99,7 @@ export default function AddOpModal({ visible, closeHandler }) {
 						status={errors.amount.length ? 'error' : 'secondary'}
 						// contentLeft={<Password fill='currentColor' />}
 					/>
-
+					{errors.amount && <Text color='error'>{errors.amount}</Text>}
 					<Radio.Group row value={form.opType}>
 						<Radio
 							value='income'

@@ -3,6 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Text, Input } from '@nextui-org/react';
 import { editOperation } from '../../helpers/axios';
 import { getOperations } from '../../redux/actions/actions';
+import { checkAddForm } from '../Forms/AddOpForm';
+
+const initErrors = {
+	state: false,
+	description: '',
+	amount: 0,
+};
 
 export default function EditOpModal({
 	visibleEdit,
@@ -13,10 +20,7 @@ export default function EditOpModal({
 		description: '',
 		amount: 0,
 	});
-	const [errors, setErrors] = useState({
-		description: '',
-		amount: '',
-	});
+	const [errors, setErrors] = useState(initErrors);
 
 	const user = useSelector((state) => state.user);
 
@@ -28,52 +32,28 @@ export default function EditOpModal({
 			state: true,
 			[e.target.name]: e.target.value,
 		});
-		if (e.target.name === 'description') {
-			if (!e.target.value.trim(' ').length) {
-				setErrors({
-					...errors,
-					description: 'Description cant be empty',
-				});
-			} else if (!e.target.value.length) {
-				setErrors({
-					...errors,
-					description: 'Must write a description',
-				});
-			} else {
-				setErrors({
-					...errors,
-					description: '',
-				});
-			}
-		}
-		if (e.target.name === 'amount') {
-			const number = Number(e.target.value);
-			if (!number || number < 0) {
-				setErrors({
-					...errors,
-					state: true,
-					amount: 'Number must be greater than cero',
-				});
-			} else {
-				setErrors({
-					...errors,
-					amount: '',
-				});
-			}
-		}
+		setErrors({
+			...errors,
+			[e.target.name]: '',
+		});
 	};
 
 	const handleEdit = () => {
-		if (errors.description || errors.amount) return;
-
-		editOperation(user.id, {
-			opId,
-			description: form.description,
-			amount: form.amount,
-			erase: false,
-		}).then(() => {
-			dispatch(getOperations(user.id));
+		const check = checkAddForm(form);
+		setErrors((prevState) => {
+			return { ...prevState, ...check };
 		});
+
+		if (!check.state) {
+			editOperation(user.id, {
+				opId,
+				description: form.description,
+				amount: form.amount,
+				erase: false,
+			}).then(() => {
+				dispatch(getOperations(user.id));
+			});
+		}
 	};
 
 	return (
@@ -108,6 +88,9 @@ export default function EditOpModal({
 						status={errors.description.length ? 'error' : 'secondary'}
 						// contentLeft={<Mail fill='currentColor' />}
 					/>
+					{errors.description && (
+						<Text color='error'>{errors.description}</Text>
+					)}
 					<Input
 						clearable
 						bordered
@@ -123,6 +106,7 @@ export default function EditOpModal({
 						status={errors.amount.length ? 'error' : 'secondary'}
 						// contentLeft={<Password fill='currentColor' />}
 					/>
+					{errors.amount && <Text color='error'>{errors.amount}</Text>}
 				</Modal.Body>
 				<Modal.Footer>
 					<Button auto flat color='error' onClick={closeHandlerEditModal}>
