@@ -44,7 +44,7 @@ export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 				return (
 					<Col>
 						<Row>
-							<Text b size={14} css={{ tt: 'capitalize' }}>
+							<Text size={14} css={{ tt: 'capitalize' }}>
 								{cellValue}
 							</Text>
 						</Row>
@@ -67,7 +67,7 @@ export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 				return (
 					<Col>
 						<Row>
-							<Text b size={14} css={{ tt: 'capitalize' }}>
+							<Text size={14} css={{ tt: 'capitalize' }}>
 								{cellValue && cellValue.slice(0, 10)}
 							</Text>
 						</Row>
@@ -114,7 +114,7 @@ export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 			css={{
 				margin: '0 auto',
 				height: 'auto',
-				minWidth: '400px',
+				width: '90%',
 				maxWidth: '1200px',
 			}}
 			selectionMode='none'

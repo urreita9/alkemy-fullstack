@@ -52,6 +52,8 @@ const reducer = (state = initialState, action) => {
 		case LOGOUT_USER:
 			return {
 				...state,
+				operations: [],
+				filteredOperations: [],
 				user: payload,
 			};
 

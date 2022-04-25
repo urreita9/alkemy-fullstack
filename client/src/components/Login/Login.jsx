@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, Input, Text } from '@nextui-org/react';
-import { login } from '../../redux/actions/actions';
+import { getUser, login } from '../../redux/actions/actions';
 
 export const Login = () => {
 	const [form, setForm] = useState({
@@ -13,10 +13,14 @@ export const Login = () => {
 	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
+	const token = localStorage.getItem('token-alkemy');
 
 	useEffect(() => {
 		if (user.auth) {
+			console.log('LOGNI USERT', user);
 			navigate('/');
+		} else if (token) {
+			dispatch(getUser(token));
 		}
 	}, [user]);
 
@@ -34,7 +38,12 @@ export const Login = () => {
 	// console.log('USER STATE', user);
 	return (
 		<form
-			style={{ minWidth: '200px', maxWidth: '500px', margin: '30px auto' }}
+			style={{
+				width: '80%',
+				minWidth: '200px',
+				maxWidth: '500px',
+				margin: '30px auto',
+			}}
 			onSubmit={handleSubmit}
 		>
 			<div>

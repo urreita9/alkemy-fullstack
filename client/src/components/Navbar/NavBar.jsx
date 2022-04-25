@@ -12,6 +12,7 @@ export const NavBar = () => {
 
 	const logoutUser = () => {
 		dispatch(logout());
+
 		navigate('/login');
 	};
 	return (
@@ -35,7 +36,7 @@ export const NavBar = () => {
 					}
 				}}
 			>
-				<Text color='white' h2>
+				<Text color='white' h4>
 					Alkemy wallet
 				</Text>
 			</div>

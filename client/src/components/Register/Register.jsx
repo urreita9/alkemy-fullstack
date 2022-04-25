@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Text, Input, Row, Checkbox } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../helpers/axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from '../../redux/actions/actions';
 // import { Mail } from './Mail';
 // import { Password } from './Password';
 
@@ -12,6 +14,18 @@ export const Register = () => {
 		password2: '',
 	});
 	const navigate = useNavigate();
+	const user = useSelector((state) => state.user);
+	const dispatch = useDispatch();
+
+	const token = localStorage.getItem('token-alkemy');
+	useEffect(() => {
+		if (user.auth) {
+			console.log('LOGNI USERT', user);
+			navigate('/');
+		} else if (token) {
+			dispatch(getUser(token));
+		}
+	}, [user]);
 
 	const handleInputChange = (e) => {
 		setForm({
@@ -29,7 +43,12 @@ export const Register = () => {
 
 	return (
 		<form
-			style={{ minWidth: '200px', maxWidth: '500px', margin: '30px auto' }}
+			style={{
+				width: '80%',
+				minWidth: '200px',
+				maxWidth: '500px',
+				margin: '30px auto',
+			}}
 			onSubmit={handleSubmit}
 		>
 			{/* <Button auto shadow onClick={handler}>

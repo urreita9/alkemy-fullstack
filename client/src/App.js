@@ -1,10 +1,8 @@
-import { useEffect } from 'react';
 import {
 	BrowserRouter as Router,
 	Routes,
 	Route,
 	Navigate,
-	useNavigate,
 } from 'react-router-dom';
 import { NextUIProvider } from '@nextui-org/react';
 import './App.css';
@@ -13,12 +11,10 @@ import { NavBar } from './components/Navbar/NavBar';
 import { Ops } from './components/Ops/Ops';
 import { Login } from './components/Login/Login';
 import { Register } from './components/Register/Register';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from './redux/actions/actions';
 
 function App() {
 	return (
-		<NextUIProvider>
+		<NextUIProvider theme={{ type: 'dark' }}>
 			<Router>
 				<NavBar />
 				<Routes>
