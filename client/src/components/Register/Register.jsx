@@ -4,8 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { register } from '../../helpers/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/actions/actions';
+import { checkRegForm } from '../Forms/RegisterForm';
 // import { Mail } from './Mail';
 // import { Password } from './Password';
+const initErrors = {
+	state: false,
+	email: '',
+	password: '',
+	password2: '',
+};
 
 export const Register = () => {
 	const [form, setForm] = useState({
@@ -13,6 +20,7 @@ export const Register = () => {
 		password: '',
 		password2: '',
 	});
+	const [errors, setErrors] = useState(initErrors);
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
@@ -32,12 +40,21 @@ export const Register = () => {
 			...form,
 			[e.target.name]: e.target.value,
 		});
+		setErrors({
+			...errors,
+			[e.target.name]: '',
+		});
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
-		if (register(form)) {
-			navigate('/login');
+		const check = checkRegForm(form);
+		setErrors((prevState) => {
+			return { ...prevState, ...check };
+		});
+		if (!check.state) {
+			if (register(form)) {
+				navigate('/login');
+			}
 		}
 	};
 
@@ -76,6 +93,7 @@ export const Register = () => {
 						aria-label='Email'
 					/>
 				</div>
+				{errors.email && <Text color='error'>{errors.email}</Text>}
 				<div style={{ marginTop: '20px' }}>
 					<Input
 						clearable
@@ -92,6 +110,7 @@ export const Register = () => {
 						aria-label='Password'
 					/>
 				</div>
+				{errors.password && <Text color='error'>{errors.password2}</Text>}
 				<div style={{ marginTop: '20px' }}>
 					<Input
 						clearable
@@ -108,6 +127,7 @@ export const Register = () => {
 						aria-label='Password'
 					/>
 				</div>
+				{errors.password2 && <Text color='error'>{errors.password2}</Text>}
 			</div>
 			<div
 				style={{
