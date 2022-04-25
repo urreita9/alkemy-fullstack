@@ -22,7 +22,7 @@ export const StyledBadge = styled('span', {
 				color: '$success',
 			},
 
-			outcome: {
+			expense: {
 				bg: '$errorLight',
 				color: '$error',
 			},

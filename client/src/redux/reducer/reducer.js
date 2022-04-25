@@ -2,7 +2,7 @@ import {
 	GET_OPERATIONS,
 	FILTER_ALL,
 	FILTER_INCOME,
-	FILTER_OUTCOME,
+	FILTER_EXPENSE,
 	LOGIN_USER,
 	LOGOUT_USER,
 } from '../actions/actions';
@@ -36,9 +36,9 @@ const reducer = (state = initialState, action) => {
 				filteredOperations: filterIncome,
 			};
 
-		case FILTER_OUTCOME:
+		case FILTER_EXPENSE:
 			const filterOutcome = state.operations.filter(
-				(op) => op.opType === 'outcome'
+				(op) => op.opType === 'expense'
 			);
 			return {
 				...state,

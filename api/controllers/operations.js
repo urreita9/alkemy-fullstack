@@ -28,9 +28,9 @@ const getOperations = async (req, res) => {
 const postOperation = async (req, res) => {
 	const { id, description, amount, opType } = req.body;
 
-	if (opType !== 'income' && opType !== 'outcome')
+	if (opType !== 'income' && opType !== 'expense')
 		return res.status(401).json({
-			msg: 'Wrong request. Operation Type must be "income" or "outcome"',
+			msg: 'Wrong request. Operation Type must be "income" or "expense"',
 		});
 
 	try {

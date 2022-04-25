@@ -2,8 +2,14 @@ import { Button } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { getOperations, getUser, logout } from '../../redux/actions/actions';
+import {
+	filterAll,
+	getOperations,
+	getUser,
+	logout,
+} from '../../redux/actions/actions';
 import { Balance } from '../Balance/Balance';
+import { NavBar } from '../Navbar/NavBar';
 import { OpsTable } from '../OpsTable/OpsTable';
 
 export const Home = () => {
@@ -38,6 +44,12 @@ export const Home = () => {
 		}
 	}, [operations]);
 
+	useEffect(() => {
+		if (operations.length) {
+			dispatch(filterAll());
+		}
+	}, []);
+
 	const calculateTotal = (operations) => {
 		let incomeLet = 0;
 		let outcomeLet = 0;
@@ -60,16 +72,23 @@ export const Home = () => {
 	const calculateIncomeOutcome = () => {};
 
 	return (
-		<div>
-			<Balance total={total} income={income} outcome={outcome} />
-			<OpsTable operations={orderedOperations} />
-			<div
-				style={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }}
-			>
-				<Button color='secondary' onClick={() => navigate('/operations')}>
-					Operations
-				</Button>
+		<>
+			<NavBar />
+			<div>
+				<Balance total={total} income={income} outcome={outcome} />
+				<OpsTable operations={orderedOperations} />
+				<div
+					style={{
+						marginTop: '30px',
+						display: 'flex',
+						justifyContent: 'center',
+					}}
+				>
+					<Button color='secondary' onClick={() => navigate('/operations')}>
+						Operations
+					</Button>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };

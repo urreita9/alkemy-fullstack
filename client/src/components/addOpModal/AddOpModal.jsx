@@ -111,13 +111,13 @@ export default function AddOpModal({ visible, closeHandler }) {
 							Income
 						</Radio>
 						<Radio
-							value='outcome'
+							value='expense'
 							color='secondary'
 							onChange={() => {
-								setForm({ ...form, opType: 'outcome' });
+								setForm({ ...form, opType: 'expense' });
 							}}
 						>
-							Outcome
+							Expense
 						</Radio>
 					</Radio.Group>
 				</Modal.Body>

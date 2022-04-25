@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
 			allowNull: false,
 		},
 		opType: {
-			type: DataTypes.ENUM('income', 'outcome'),
+			type: DataTypes.ENUM('income', 'expense'),
 			allowNull: false,
 		},
 		active: {

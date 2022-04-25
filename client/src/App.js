@@ -16,7 +16,7 @@ function App() {
 	return (
 		<NextUIProvider theme={{ type: 'dark' }}>
 			<Router>
-				<NavBar />
+				{/* <NavBar /> */}
 				<Routes>
 					<Route exact path='/' element={<Home />} />
 					<Route exact path='/operations' element={<Ops />} />

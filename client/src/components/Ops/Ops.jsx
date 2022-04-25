@@ -4,14 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import {
 	filterAll,
+	filterExpense,
 	filterIncome,
-	filterOutcome,
 	getOperations,
 	getUser,
 	logout,
 } from '../../redux/actions/actions';
 import AddOpModal from '../addOpModal/AddOpModal';
 import EditOpModal from '../editOpModal/EditOpModal';
+import { NavBar } from '../Navbar/NavBar';
 import { OpsTable } from '../OpsTable/OpsTable';
 
 export const Ops = () => {
@@ -55,39 +56,42 @@ export const Ops = () => {
 		return <Navigate to='/login' replace />;
 	}
 	return (
-		<div>
-			<Grid.Container>
+		<>
+			<NavBar />
+			<div>
+				<Grid.Container>
+					<Grid xs={12} style={{ justifyContent: 'center', display: 'flex' }}>
+						<Button.Group color='secondary' size='sm'>
+							<Button onClick={() => dispatch(filterAll())}>All</Button>
+							<Button onClick={() => dispatch(filterIncome())}>Income</Button>
+							<Button onClick={() => dispatch(filterExpense())}>Expense</Button>
+						</Button.Group>
+					</Grid>
+				</Grid.Container>
+				<AddOpModal
+					visible={visible}
+					handler={handler}
+					closeHandler={closeHandler}
+				/>
+				<EditOpModal
+					visibleEdit={visibleEdit}
+					handlerEditModal={handlerEditModal}
+					closeHandlerEditModal={closeHandlerEditModal}
+					opId={opId.current}
+				/>
+				<OpsTable
+					operations={sortedOperations}
+					home={false}
+					visibleEdit={visibleEdit}
+					handlerEditModal={handlerEditModal}
+					closeHandlerEditModal={closeHandlerEditModal}
+				/>
 				<Grid xs={12} style={{ justifyContent: 'center', display: 'flex' }}>
-					<Button.Group color='secondary' size='sm'>
-						<Button onClick={() => dispatch(filterAll())}>All</Button>
-						<Button onClick={() => dispatch(filterIncome())}>Income</Button>
-						<Button onClick={() => dispatch(filterOutcome())}>Outcome</Button>
-					</Button.Group>
+					<Button auto shadow onClick={handler}>
+						Add Operation
+					</Button>
 				</Grid>
-			</Grid.Container>
-			<AddOpModal
-				visible={visible}
-				handler={handler}
-				closeHandler={closeHandler}
-			/>
-			<EditOpModal
-				visibleEdit={visibleEdit}
-				handlerEditModal={handlerEditModal}
-				closeHandlerEditModal={closeHandlerEditModal}
-				opId={opId.current}
-			/>
-			<OpsTable
-				operations={sortedOperations}
-				home={false}
-				visibleEdit={visibleEdit}
-				handlerEditModal={handlerEditModal}
-				closeHandlerEditModal={closeHandlerEditModal}
-			/>
-			<Grid xs={12} style={{ justifyContent: 'center', display: 'flex' }}>
-				<Button auto shadow onClick={handler}>
-					Add Operation
-				</Button>
-			</Grid>
-		</div>
+			</div>
+		</>
 	);
 };

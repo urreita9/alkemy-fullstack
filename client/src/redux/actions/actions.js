@@ -2,7 +2,7 @@ import api from '../../axios/axios';
 export const GET_OPERATIONS = 'GET_OPERATIONS';
 export const FILTER_ALL = 'FILTER_ALL';
 export const FILTER_INCOME = 'FILTER_INCOME';
-export const FILTER_OUTCOME = 'FILTER_OUTCOME';
+export const FILTER_EXPENSE = 'FILTER_EXPENSE';
 export const POST_OPERATION = 'POST_OPERATION';
 export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
@@ -35,8 +35,8 @@ export const filterIncome = () => ({
 	type: FILTER_INCOME,
 	payload: null,
 });
-export const filterOutcome = () => ({
-	type: FILTER_OUTCOME,
+export const filterExpense = () => ({
+	type: FILTER_EXPENSE,
 	payload: null,
 });
 
