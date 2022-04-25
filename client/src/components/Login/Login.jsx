@@ -3,12 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, Input, Text } from '@nextui-org/react';
 import { getUser, login } from '../../redux/actions/actions';
+import { checkLoginForm } from '../Forms/LoginForm';
+
+const initErrors = {
+	state: false,
+	email: '',
+	password: '',
+};
 
 export const Login = () => {
 	const [form, setForm] = useState({
 		email: '',
 		password: '',
 	});
+	const [errors, setErrors] = useState(initErrors);
 	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
@@ -29,10 +37,20 @@ export const Login = () => {
 			...form,
 			[e.target.name]: e.target.value,
 		});
+		setErrors({
+			...errors,
+			[e.target.name]: '',
+		});
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		dispatch(login(form));
+		const check = checkLoginForm(form);
+		setErrors((prevState) => {
+			return { ...prevState, ...check };
+		});
+		if (!check.state) {
+			dispatch(login(form));
+		}
 	};
 
 	// console.log('USER STATE', user);
@@ -67,6 +85,7 @@ export const Login = () => {
 						aria-label='Email'
 					/>
 				</div>
+				{errors.email && <Text color='error'>{errors.email}</Text>}
 				<div style={{ marginTop: '20px' }}>
 					<Input
 						clearable
@@ -83,6 +102,7 @@ export const Login = () => {
 						aria-label='Password'
 					/>
 				</div>
+				{errors.password && <Text color='error'>{errors.password}</Text>}
 			</div>
 			<div
 				style={{
