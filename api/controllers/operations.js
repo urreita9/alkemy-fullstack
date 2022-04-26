@@ -12,7 +12,6 @@ const getOperations = async (req, res) => {
 			where: {
 				UserId: id,
 			},
-			// include: [{ model: User, attributes: ['email'] }],
 		});
 
 		const activeOperations = operations.filter(
