@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 import { Modal, Button, Text, Input } from '@nextui-org/react';
 import { editOperation } from '../../helpers/axios';
 import { getOperations } from '../../redux/actions/actions';
@@ -53,6 +54,14 @@ export default function EditOpModal({
 			}).then(() => {
 				dispatch(getOperations(user.id));
 			});
+			Swal.fire({
+				title: 'Success!',
+				text: 'Operation updated',
+				icon: 'success',
+				confirmButtonText: 'Ok',
+			});
+			setForm({ description: '', amount: 0 });
+			closeHandlerEditModal();
 		}
 	};
 

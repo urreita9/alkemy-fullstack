@@ -129,11 +129,18 @@ export const Login = () => {
 				</div>
 			</form>
 			<div style={{ textAlign: 'center' }}>
-				<Text h6 css={{ fontSize: '50px', color: '#141414' }}>
-					Keep it simple with
-					<Text h1 weight='bold' color='secondary'>
-						Alkemy
-					</Text>{' '}
+				<Text h6 css={{ fontSize: '40px', color: '#141414' }}>
+					Keep it <span style={{ color: '#00D26A' }}>simple</span> with
+				</Text>
+				<Text
+					h1
+					weight='bold'
+					color='secondary'
+					css={{ letterSpacing: '-4px' }}
+				>
+					Alkemy
+				</Text>{' '}
+				<Text h6 css={{ fontSize: '40px', color: '#141414' }}>
 					wallet.
 				</Text>
 			</div>

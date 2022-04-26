@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 import { Modal, Button, Text, Input, Radio } from '@nextui-org/react';
 
 import { getOperations, postOperation } from '../../redux/actions/actions';
@@ -43,6 +44,14 @@ export default function AddOpModal({ visible, closeHandler }) {
 			postOperation(user.id, form).then((data) => {
 				dispatch(getOperations(data.UserId));
 			});
+			Swal.fire({
+				title: 'Success!',
+				text: 'Operation created',
+				icon: 'success',
+				confirmButtonText: 'Ok',
+			});
+			setForm(initialForm);
+			closeHandler();
 		}
 	};
 

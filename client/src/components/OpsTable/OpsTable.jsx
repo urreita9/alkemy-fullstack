@@ -1,4 +1,5 @@
 import { Table, Row, Col, Tooltip, Text } from '@nextui-org/react';
+import Swal from 'sweetalert2';
 import { StyledBadge } from './StyledBadge';
 import { IconButton } from './IconButton';
 import { EditIcon } from './EditIcon';
@@ -25,6 +26,8 @@ export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 		});
 		return dollarUSLocale.format(amount);
 	};
+
+	const handleDelete = () => {};
 
 	const renderCell = (operation, columnKey) => {
 		const cellValue = operation[columnKey];
@@ -92,7 +95,24 @@ export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 										content='Delete operation'
 										color='error'
 										onClick={() => {
-											handleDelete(operation.id);
+											Swal.fire({
+												title: 'Are you sure?',
+												text: "You won't be able to revert this!",
+												icon: 'warning',
+												showCancelButton: true,
+												confirmButtonColor: '#8D49D2',
+												cancelButtonColor: '#d33',
+												confirmButtonText: 'Yes, delete it!',
+											}).then((result) => {
+												if (result.isConfirmed) {
+													Swal.fire(
+														'Deleted!',
+														`Your ${operation.opType} has been deleted.`,
+														'success'
+													);
+													handleDelete(operation.id);
+												}
+											});
 										}}
 									>
 										<IconButton>

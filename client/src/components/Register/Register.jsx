@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Text, Input, Row, Checkbox } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { register } from '../../helpers/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/actions/actions';
@@ -54,6 +55,12 @@ export const Register = () => {
 		});
 		if (!check.state) {
 			if (register(form)) {
+				Swal.fire({
+					title: 'Success!',
+					text: 'User created',
+					icon: 'success',
+					confirmButtonText: 'Ok',
+				});
 				navigate('/login');
 			}
 		}
@@ -154,11 +161,18 @@ export const Register = () => {
 				</div>
 			</form>
 			<div style={{ textAlign: 'center' }}>
-				<Text h6 css={{ fontSize: '50px', color: '#141414' }}>
+				<Text h6 css={{ fontSize: '40px', color: '#141414' }}>
 					Keep💲track with
-					<Text h1 weight='bold' color='secondary'>
-						Alkemy
-					</Text>{' '}
+				</Text>
+				<Text
+					h1
+					weight='bold'
+					color='secondary'
+					css={{ letterSpacing: '-4px' }}
+				>
+					Alkemy
+				</Text>{' '}
+				<Text h6 css={{ fontSize: '40px', color: '#141414' }}>
 					wallet.
 				</Text>
 			</div>

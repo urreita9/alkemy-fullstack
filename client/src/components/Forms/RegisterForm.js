@@ -22,12 +22,12 @@ export const checkRegForm = ({ email, password, password2 }) => {
 	}
 
 	if (password) {
-		if (password.length < 6) {
-			e.password = 'Password must be at least 6 characters long';
-			e.state = true;
-		}
 		if (!password.trim(' ').length) {
 			e.password = 'Password cant be empty';
+			e.state = true;
+		}
+		if (password.length < 5) {
+			e.password = 'Password must be at least 6 characters long';
 			e.state = true;
 		}
 	} else {
