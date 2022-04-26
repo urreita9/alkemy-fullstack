@@ -25,13 +25,13 @@ La aplicación cuenta con autenticación de usuarios y verificación JWT.
 <p align="left">
   <img height="150"  src="./tablet_home.png" />
 </p>
-Esta pantalla muesta las ultimas 10 operaciones cargadas por el usuario, junto con el balance TOTAL (incluyendo las demas operaciones, llegado el caso en que sean mas de 10) y un grafico que muestra las porciones de ingresos y egresos totales de dinero.
+Esta pantalla muesta las ultimas 10 operaciones cargadas por el usuario, junto con el balance TOTAL (incluyendo las demas operaciones, llegado el caso en que sean mas de 10) y un gráfico que muestra las porciones de ingresos y egresos totales de dinero.
 
 ## Apartado de Operaciones
 <p align="left">
   <img height="150"  src="./tablet_ops.png" />
 </p>
-Esta pantalla muesta la totalidad de las operaciones. Podemos agregar nuevas, editar y actualizar en la DB las que ya estan cargadas, asi como eliminarlas. No se puede editar el tipo de operación, ingreso o egreso (tal como pide la consigna).
+Esta pantalla muesta la totalidad de las operaciones. Podemos agregar nuevas, editar y actualizar en la DB las que ya están cargadas, así como eliminarlas. No se puede editar el tipo de operación, ingreso o egreso (tal como pide la consigna).
 
 ## Registro y Login 
 <p align="left">
@@ -44,6 +44,13 @@ El visitante que desee utilizar Alkemy Wallet deberá registrarse mediante Email
   <img height="150"  src="./tablet_delete.png" />
 </p>
 
+Deploy: Heroku y Vercel.
+
+Para correrlo localmente:
+- clonar el repositorio
+- instalar las dependencias (npm install). 
+- Desde la carpeta api/, ejecutar npm start para iniciar el servidor. 
+- Desde la carpeta client/, ejecutar npm start para darle inicio al browser. 
 
 
 
