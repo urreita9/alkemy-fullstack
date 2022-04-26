@@ -9,7 +9,7 @@ export const Balance = ({ total, income, outcome }) => {
 			style: 'currency',
 			currency: 'USD',
 		});
-		return dollarUSLocale.format(amount);
+		return dollarUSLocale.format(amount.toFixed(2));
 	};
 
 	return (
@@ -52,7 +52,7 @@ export const Balance = ({ total, income, outcome }) => {
 										{ title: 'Income', value: income, color: '#7CC964' },
 										{ title: 'Outcome', value: outcome, color: '#F31361' },
 									]}
-									label={({ dataEntry }) => dataEntry.value}
+									label={({ dataEntry }) => dataEntry.value.toFixed(2)}
 									style={{ height: '100px' }}
 								/>
 							) : (

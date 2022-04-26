@@ -8,14 +8,14 @@ import { checkAddForm } from '../Forms/AddOpForm';
 
 const initialForm = {
 	description: '',
-	amount: 0,
+	amount: '',
 	opType: 'income',
 };
 
 const initErrors = {
 	state: false,
 	description: '',
-	amount: 0,
+	amount: '',
 };
 export default function AddOpModal({ visible, closeHandler }) {
 	const [form, setForm] = useState(initialForm);

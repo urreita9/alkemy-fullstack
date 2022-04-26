@@ -9,7 +9,7 @@ import { checkAddForm } from '../Forms/AddOpForm';
 const initErrors = {
 	state: false,
 	description: '',
-	amount: 0,
+	amount: '',
 };
 
 export default function EditOpModal({
@@ -19,7 +19,7 @@ export default function EditOpModal({
 }) {
 	const [form, setForm] = useState({
 		description: '',
-		amount: 0,
+		amount: '',
 	});
 	const [errors, setErrors] = useState(initErrors);
 

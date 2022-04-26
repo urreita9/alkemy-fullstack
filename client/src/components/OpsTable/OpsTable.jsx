@@ -24,7 +24,7 @@ export const OpsTable = ({ operations, handlerEditModal, home = true }) => {
 			style: 'currency',
 			currency: 'USD',
 		});
-		return dollarUSLocale.format(amount);
+		return dollarUSLocale.format(amount.toFixed(2));
 	};
 
 	const handleDelete = () => {};
