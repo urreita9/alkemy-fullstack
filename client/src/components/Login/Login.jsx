@@ -26,7 +26,6 @@ export const Login = () => {
 
 	useEffect(() => {
 		if (user.auth) {
-			console.log('LOGNI USERT', user);
 			navigate('/');
 		} else if (token) {
 			dispatch(getUser(token));
@@ -54,7 +53,6 @@ export const Login = () => {
 		}
 	};
 
-	// console.log('USER STATE', user);
 	return (
 		<>
 			<Logo />
