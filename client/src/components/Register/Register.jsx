@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Text, Input, Row, Checkbox } from '@nextui-org/react';
+import { Button, Text, Input } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { register } from '../../helpers/axios';
@@ -7,8 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/actions/actions';
 import { checkRegForm } from '../Forms/RegisterForm';
 import { Logo } from '../Logo/Logo';
-// import { Mail } from './Mail';
-// import { Password } from './Password';
+
 const initErrors = {
 	state: false,
 	email: '',
@@ -30,7 +29,6 @@ export const Register = () => {
 	const token = localStorage.getItem('token-alkemy');
 	useEffect(() => {
 		if (user.auth) {
-			console.log('LOGNI USERT', user);
 			navigate('/');
 		} else if (token) {
 			dispatch(getUser(token));
@@ -54,15 +52,23 @@ export const Register = () => {
 			return { ...prevState, ...check };
 		});
 		if (!check.state) {
-			if (register(form)) {
-				Swal.fire({
-					title: 'Success!',
-					text: 'User created',
-					icon: 'success',
-					confirmButtonText: 'Ok',
-				});
-				navigate('/login');
-			}
+			register(form).then((data) => {
+				if (!data.id) {
+					Swal.fire({
+						icon: 'error',
+						title: `${data.response.data.msg}`,
+						text: 'Please try again!',
+					});
+				} else {
+					Swal.fire({
+						title: 'Success!',
+						text: 'User created',
+						icon: 'success',
+						confirmButtonText: 'Ok',
+					});
+					navigate('/login');
+				}
+			});
 		}
 	};
 

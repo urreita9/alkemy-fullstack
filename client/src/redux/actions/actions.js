@@ -1,4 +1,5 @@
 import api from '../../axios/axios';
+import Swal from 'sweetalert2';
 export const GET_OPERATIONS = 'GET_OPERATIONS';
 export const FILTER_ALL = 'FILTER_ALL';
 export const FILTER_INCOME = 'FILTER_INCOME';
@@ -84,8 +85,11 @@ export const login = (userData) => async (dispatch) => {
 			});
 		}
 	} catch (error) {
-		console.log(error.response);
-		alert(error.response.data.msg);
+		Swal.fire({
+			icon: 'error',
+			title: `${error.response.data.msg}`,
+			text: 'Please try again!',
+		});
 	}
 };
 

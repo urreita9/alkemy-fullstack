@@ -39,7 +39,8 @@ export const login = async (userData) => {
 		return data;
 	} catch (error) {
 		console.log(error.response);
-		alert(error.response.data.msg);
+		// alert(error.response.data.msg);
+		return error;
 	}
 };
 
@@ -50,11 +51,10 @@ export const logout = () => {
 export const register = async (userData) => {
 	try {
 		const { data } = await api.post(`/auth/register`, userData);
-		if (data.email) {
-			return true;
-		}
+		console.log(data);
+		return data;
 	} catch (error) {
-		console.log(error.response);
-		alert(error.response.data.msg);
+		console.log(error.response.data);
+		return error;
 	}
 };
