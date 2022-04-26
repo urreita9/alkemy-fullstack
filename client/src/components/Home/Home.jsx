@@ -72,7 +72,7 @@ export const Home = () => {
 	return (
 		<>
 			<NavBar />
-			<div style={{ margin: '20px auto', minHeight: 'calc(100vh - 80px)' }}>
+			<div style={{ margin: '20px auto', minHeight: 'calc(100vh - 150px)' }}>
 				<Balance total={total} income={income} outcome={outcome} />
 				<OpsTable operations={orderedOperations} />
 				<div
