@@ -46,9 +46,14 @@ El visitante que desee utilizar Alkemy Wallet deberá registrarse mediante Email
 
 Deploy: Heroku y Vercel.
 
+Link:
+<a href="https://alkemy-fullstack.vercel.app/">https://alkemy-fullstack.vercel.app/</a>
+
+
 Para correrlo localmente:
 - clonar el repositorio
-- instalar las dependencias (npm install). 
+- instalar las dependencias (npm install).
+- Crear base de datos postgreSQL y declarar variables de entorno: DB_USER, DB_PASSWORD, DB_HOST, DB_NAME.  
 - Desde la carpeta api/, ejecutar npm start para iniciar el servidor. 
 - Desde la carpeta client/, ejecutar npm start para darle inicio al browser. 
 
