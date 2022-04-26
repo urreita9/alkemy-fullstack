@@ -18,14 +18,14 @@ server.use((req, res, next) => {
 });
 server.use('/api', routes);
 
-const PORT = process.env.PORT || 3000;
+// const PORT = process.env.PORT || 3000;
 
-server.listen(PORT, async () => {
+server.listen(process.env.PORT, async () => {
 	try {
 		await db.sync({ force: false });
 	} catch (error) {
 		console.log(error);
 	}
 
-	console.log(`listening on port: ${PORT}...`);
+	console.log(`listening on port: ${process.env.PORT}...`);
 });
