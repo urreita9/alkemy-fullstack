@@ -56,7 +56,6 @@ const updateOperation = async (req, res) => {
 	const { active, ...resto } = req.body;
 	const { id } = req.params;
 
-	console.log('UPDATE', req.body);
 	try {
 		const user = await User.findByPk(req.body.uid);
 		if (!user) return res.status(404).json({ msg: 'User does not exist' });
@@ -67,7 +66,6 @@ const updateOperation = async (req, res) => {
 			return res.status(404).json({ msg: 'Operation does not exist' });
 
 		const { opType } = operation;
-		console.log('ACTIVE FROM BODY', active);
 
 		const updatedOperation = await operation.update({
 			...operation,
@@ -75,7 +73,6 @@ const updateOperation = async (req, res) => {
 			opType,
 			active,
 		});
-		console.log('UPDATED ACTIVE', updatedOperation);
 
 		return res.json(updatedOperation);
 	} catch (error) {
