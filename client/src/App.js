@@ -11,20 +11,21 @@ import { NavBar } from './components/Navbar/NavBar';
 import { Ops } from './components/Ops/Ops';
 import { Login } from './components/Login/Login';
 import { Register } from './components/Register/Register';
+import { Footer } from './components/Footer/Footer';
 
 function App() {
 	return (
-		<NextUIProvider theme={{ type: 'dark' }}>
+		<NextUIProvider>
 			<Router>
-				{/* <NavBar /> */}
 				<Routes>
 					<Route exact path='/' element={<Home />} />
 					<Route exact path='/operations' element={<Ops />} />
 
 					<Route exact path='/login' element={<Login />} />
 					<Route exact path='/register' element={<Register />} />
-					<Route path='*' element={<Navigate replace to='/' />} />
+					{/* <Route path='*' element={<Navigate replace to='/' />} /> */}
 				</Routes>
+				<Footer />
 			</Router>
 		</NextUIProvider>
 	);

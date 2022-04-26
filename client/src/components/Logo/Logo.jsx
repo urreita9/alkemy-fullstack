@@ -7,7 +7,6 @@ export const Logo = () => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				marginTop: '30px',
 			}}
 		>
 			<img

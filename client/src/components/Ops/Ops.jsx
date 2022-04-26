@@ -58,7 +58,7 @@ export const Ops = () => {
 	return (
 		<>
 			<NavBar />
-			<div>
+			<div style={{ minHeight: 'calc(100vh - 150px)' }}>
 				<Grid.Container>
 					<Grid xs={12} style={{ justifyContent: 'center', display: 'flex' }}>
 						<Button.Group color='secondary' size='sm'>
